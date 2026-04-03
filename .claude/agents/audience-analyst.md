@@ -5,6 +5,7 @@ model: sonnet
 skills:
   - ajtbd-research
   - content-strategy
+  - competitive-landscape
 permissionMode: auto
 maxTurns: 15
 memory: project

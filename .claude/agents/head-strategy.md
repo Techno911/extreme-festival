@@ -8,6 +8,7 @@ skills:
   - tender-process
   - ajtbd-research
   - kanban-workflow
+  - competitive-landscape
 permissionMode: auto
 maxTurns: 15
 memory: project
