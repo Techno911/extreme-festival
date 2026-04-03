@@ -29,19 +29,19 @@ interface NavItem {
 const navItems: NavItem[] = [
   { id: 'overview', label: 'Обзор', icon: LayoutDashboard },
   { id: 'timeline', label: 'Таймлайн', icon: Calendar },
-  { id: 'strategy', label: 'А Стратегия', icon: Target, section: 'А' },
-  { id: 'market', label: 'Б Рынок', icon: BarChart3, section: 'Б' },
-  { id: 'budget', label: 'В Бюджет', icon: Wallet, section: 'В' },
-  { id: 'sales', label: 'Г Продажи', icon: Ticket, section: 'Г' },
-  { id: 'site', label: 'Д Сайт', icon: FileText, section: 'Д' },
-  { id: 'trailer', label: 'Е Трейлер', icon: Flag, section: 'Е' },
-  { id: 'ambassadors', label: 'Ж Амбассадоры', icon: Users, section: 'Ж' },
-  { id: 'partners', label: 'З Партнёры', icon: Radio, section: 'З' },
-  { id: 'bloggers', label: 'И Блогеры', icon: Megaphone, section: 'И' },
-  { id: 'content', label: 'К Контент', icon: PenTool, section: 'К' },
-  { id: 'merch', label: 'Л Мерч', icon: ShoppingBag, section: 'Л' },
-  { id: 'contractors', label: 'М Подрядчики', icon: Wrench, section: 'М' },
-  { id: 'calendar', label: 'Н Календарь', icon: Calendar, section: 'Н' },
+  { id: 'strategy', label: 'Стратегия', icon: Target, section: 'А' },
+  { id: 'market', label: 'Рынок', icon: BarChart3, section: 'Б' },
+  { id: 'budget', label: 'Бюджет', icon: Wallet, section: 'В' },
+  { id: 'sales', label: 'Продажи', icon: Ticket, section: 'Г' },
+  { id: 'site', label: 'Сайт', icon: FileText, section: 'Д' },
+  { id: 'trailer', label: 'Трейлер', icon: Flag, section: 'Е' },
+  { id: 'ambassadors', label: 'Амбассадоры', icon: Users, section: 'Ж' },
+  { id: 'partners', label: 'Партнёры', icon: Radio, section: 'З' },
+  { id: 'bloggers', label: 'Блогеры', icon: Megaphone, section: 'И' },
+  { id: 'content', label: 'Контент', icon: PenTool, section: 'К' },
+  { id: 'merch', label: 'Мерч', icon: ShoppingBag, section: 'Л' },
+  { id: 'contractors', label: 'Подрядчики', icon: Wrench, section: 'М' },
+  { id: 'calendar', label: 'Календарь', icon: Calendar, section: 'Н' },
   { id: 'changelog', label: 'Лог изменений', icon: History },
 ];
 
@@ -107,7 +107,7 @@ export function Sidebar({ active, onNavigate, collapsed, onToggle }: SidebarProp
       </nav>
 
       {/* Footer */}
-      <div className="px-3 py-3 border-t border-border text-xs text-text-dim">
+      <div className="px-3 py-3 text-xs text-text-dim">
         {!collapsed && (
           <div className="space-y-1">
             <div>11 июля 2026 — Москва</div>

@@ -47,7 +47,7 @@ function App() {
       >
         <KPIBar state={dashState.state} />
 
-        <div className="flex-1 p-6 max-w-5xl">
+        <div className="flex-1 p-6">
           {page === 'overview' && (
             <Overview onNavigate={setPage} dashState={dashState} />
           )}

@@ -1425,7 +1425,16 @@ bot.on('message', async (msg) => {
     delete global._pendingRevisions[chatId];
   }
 
-  // ── OPS_MAP: операционные запросы → прямо в handler, без агентов ──
+  // ── Action-first: если явный action-запрос — сразу в CMO, минуя OPS_MAP ──
+  const isActionEarly = isActionRequest(msg.text);
+  if (isActionEarly) {
+    // Но разрешаем /тендер как query (если нет action-слов в начале)
+    // Action = собери/сделай/напиши/обнови/запусти → CMO
+    await handleAgentTask(chatId, 'ceo', msg.text);
+    return;
+  }
+
+  // ── OPS_MAP: операционные запросы (read-only) → прямо в handler, без агентов ──
   for (const entry of OPS_MAP) {
     if (entry.keywords.some(k => text.includes(k))) {
       await entry.handler(chatId, msg.text);

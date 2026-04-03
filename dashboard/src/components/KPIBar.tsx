@@ -26,13 +26,10 @@ export function KPIBar({ state }: KPIBarProps) {
 
   const kpis: KPIDisplay[] = [
     { id: 'tickets', label: 'Билеты', current: k?.tickets ?? 16, target: 1000, critical: true },
-    { id: 'budget', label: 'Бюджет', current: k?.budgetSpent ?? 0, target: 1500000 },
+    { id: 'budget', label: 'Потрачено', current: k?.budgetSpent ?? 0, target: 1500000 },
     { id: 'ambassadors', label: 'Амбассадоры', current: k?.ambassadors ?? 0, target: 15 },
     { id: 'partners', label: 'Партнёры', current: k?.partners ?? 1, target: 10 },
     { id: 'reach', label: 'Охват', current: k?.bloggersReach ?? 0, target: 500000 },
-    { id: 'content', label: 'Черновики', current: k?.contentDrafts ?? 32, target: 100 },
-    { id: 'sections', label: 'Разделы', current: k?.sectionsReady ?? 13, target: 13 },
-    { id: 'tenders', label: 'Тендеры', current: k?.tendersLaunched ?? 0, target: 2, critical: true },
   ];
 
   return (
