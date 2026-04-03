@@ -190,6 +190,39 @@ function readFileAsHtml(filePath) {
     .replace(/\n/g, '<br>');
 }
 
+// ── Auto-checkpoints: file existence → checkpoint done ──
+function scanAutoCheckpoints() {
+  const base = __dirname;
+  // Map: "sectionId:checkpointIndex" → file path (if file exists → checkpoint is done)
+  const autoMap = {
+    // Site tender
+    'site:0': 'output/outreach/tender-site/marketing-brief.md',  // ТЗ/бриф написан
+    'site:1': 'output/tracking/tenders.md',  // will check content for "Запущен"
+    // Trailer
+    'trailer:0': 'output/tactic/е-трейлер-тендерный-пакет.md',  // Написать концепцию + бриф
+    // Ambassadors
+    'ambassadors:0': 'output/outreach/ambassadors/01_leos.md',  // Питч-письма написаны
+    'ambassadors:1': 'output/outreach/ambassadors/brief_kruzhok.md',  // Бриф кругляшка
+    // Partners
+    'partners:0': 'output/outreach/partner-rockfm-test.md',  // Первый питч отправлен
+    // Content
+    'content:0': 'output/tactic/к-контент-стратегия.md',  // Контент-стратегия написана
+    // Merch
+    'merch:0': 'output/research/merch-matrix-test.md',  // Матрица мерча
+    // Market
+    'market:5': null,  // Еженедельный мониторинг — check tracking for date
+  };
+
+  const result = {};
+  for (const [key, filePath] of Object.entries(autoMap)) {
+    if (filePath) {
+      const absPath = path.join(base, filePath);
+      result[key] = fs.existsSync(absPath);
+    }
+  }
+  return result;
+}
+
 const server = http.createServer((req, res) => {
   // CORS headers for dev
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -203,10 +236,17 @@ const server = http.createServer((req, res) => {
 
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
-  // API: read state (includes live KPIs + section artifacts)
+  // API: read state (includes live KPIs + section artifacts + auto-checkpoints)
   if (url.pathname === '/api/state' && req.method === 'GET') {
     const state = readState();
     state.sections = scanSections();
+    // Merge auto-checkpoints (file-based) with user checkpoints
+    const auto = scanAutoCheckpoints();
+    for (const [key, done] of Object.entries(auto)) {
+      if (done && !(key in state.checkpoints)) {
+        state.checkpoints[key] = true; // Auto-set if file exists
+      }
+    }
     res.writeHead(200, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify(state));
   }
