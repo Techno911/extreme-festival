@@ -122,7 +122,9 @@ ${topChannel ? `💡 Топ-канал этой недели: ${topChannel}` : '
 /**
  * Уведомление о завершении задачи агентом
  */
-function taskCompleted({ agentName, taskName, outputPath, summary }) {
+function taskCompleted({ agentName, taskName, outputPath, summary, issueId }) {
+  const dashUrl = 'http://localhost:3200';
+  const paperclipUrl = issueId ? `http://localhost:3100/CMP/issues/${issueId}` : '';
   return `✅ <b>Задача завершена</b>
 
 🤖 Агент: ${agentName}
@@ -130,7 +132,8 @@ function taskCompleted({ agentName, taskName, outputPath, summary }) {
 
 ${summary}
 
-📁 Результат: <code>${outputPath}</code>`;
+📁 Результат: <code>${outputPath}</code>
+📊 Дашборд: <code>${dashUrl}</code>${paperclipUrl ? `\n🔗 Issue: <code>${paperclipUrl}</code>` : ''}`;
 }
 
 module.exports = {

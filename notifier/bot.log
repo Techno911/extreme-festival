@@ -131,3 +131,7 @@ error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: connect ETIMED
 error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: connect ETIMEDOUT 149.154.166.110:443"}
 error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: connect ETIMEDOUT 149.154.166.110:443"}
 error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: connect ETIMEDOUT 149.154.166.110:443"}
+error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: socket hang up"}
+error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: getaddrinfo ENOTFOUND api.telegram.org"}
+error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: getaddrinfo ENOTFOUND api.telegram.org"}
+error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: socket hang up"}

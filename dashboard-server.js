@@ -31,11 +31,52 @@ const MIME_TYPES = {
   '.woff': 'font/woff',
 };
 
+function parseLiveKPIs() {
+  const outputDir = path.join(__dirname, 'output');
+  const kpis = {};
+  try {
+    // tickets — from tracking/sales.md
+    const sales = fs.readFileSync(path.join(outputDir, 'tracking', 'sales.md'), 'utf8');
+    const m = sales.match(/[Пп]родано[:\s]*(\d+)/);
+    kpis.tickets = m ? parseInt(m[1]) : 16;
+  } catch { kpis.tickets = 16; }
+  try {
+    // ambassadors — count 🟢 in tracking/ambassadors.md
+    const amb = fs.readFileSync(path.join(outputDir, 'tracking', 'ambassadors.md'), 'utf8');
+    kpis.ambassadors = (amb.match(/🟢/g) || []).length;
+  } catch { kpis.ambassadors = 0; }
+  try {
+    // partners — count 🟢 in tracking/partners.md
+    const part = fs.readFileSync(path.join(outputDir, 'tracking', 'partners.md'), 'utf8');
+    kpis.partners = (part.match(/🟢/g) || []).length;
+  } catch { kpis.partners = 1; }
+  try {
+    // contentDrafts — count files in output/drafts/
+    kpis.contentDrafts = fs.readdirSync(path.join(outputDir, 'drafts')).filter(f => f.endsWith('.md')).length;
+  } catch { kpis.contentDrafts = 0; }
+  try {
+    // sectionsReady — count files in output/tactic/
+    kpis.sectionsReady = fs.readdirSync(path.join(outputDir, 'tactic')).filter(f => f.endsWith('.md')).length;
+  } catch { kpis.sectionsReady = 0; }
+  try {
+    // tendersLaunched — parse tracking/tenders.md for non-empty statuses
+    const tend = fs.readFileSync(path.join(outputDir, 'tracking', 'tenders.md'), 'utf8');
+    kpis.tendersLaunched = (tend.match(/✅|🟢|Запущен/g) || []).length;
+  } catch { kpis.tendersLaunched = 0; }
+  kpis.budgetSpent = 0;
+  kpis.bloggersReach = 0;
+  return kpis;
+}
+
 function readState() {
   try {
-    return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+    const state = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
+    // Overlay live KPIs from tracking files
+    state.kpis = { ...state.kpis, ...parseLiveKPIs() };
+    state.lastUpdated = new Date().toISOString();
+    return state;
   } catch {
-    return { lastUpdated: new Date().toISOString(), lastUpdatedBy: 'system', kpis: {}, checkpoints: {}, changelog: [] };
+    return { lastUpdated: new Date().toISOString(), lastUpdatedBy: 'system', kpis: parseLiveKPIs(), checkpoints: {}, changelog: [] };
   }
 }
 

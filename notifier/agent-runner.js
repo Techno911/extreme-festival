@@ -480,6 +480,19 @@ async function main() {
     await completeIssue(issue.id, result);
     console.log(`[agent-runner] Issue ${issue.identifier} → done`);
 
+    // 5.5 Notify dashboard changelog
+    try {
+      await request('POST', 'http://localhost:3200/api/changelog', {
+        agent: role,
+        action: 'completed',
+        summary: `${issue.identifier}: ${issue.title} → done`,
+        timestamp: new Date().toISOString(),
+      });
+      console.log(`[agent-runner] Dashboard changelog updated`);
+    } catch (dashErr) {
+      console.warn(`[agent-runner] Dashboard notify skipped: ${dashErr.message}`);
+    }
+
     // 6. Self-re-invoke: if more tasks in inbox → wake self
     try {
       const remaining = await getInbox();
