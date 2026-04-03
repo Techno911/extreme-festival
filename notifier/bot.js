@@ -391,13 +391,11 @@ async function handleAgentTask(chatId, agentType, taskText) {
       } catch {}
     }
 
-    // Результат — показываем больше для actionable артефактов (питчи, письма)
     const cleanText = resultText.replace(/<[^>]*>/g, '').trim();
-    const isActionable = cleanText.length < 2000 && (cleanText.includes('copy-paste') || cleanText.includes('Скопируй') || cleanText.includes('Женя копирует') || cleanText.includes('готов к отправке') || cleanText.includes('ТЕСТ ГОТОВНОСТИ'));
-    const maxLen = isActionable ? 2000 : 800;
-    const shortResult = cleanText.length > maxLen ? cleanText.substring(0, maxLen) + '...' : cleanText;
+    const fileMatch = cleanText.match(/output\/[\w\-\/\.а-яё]+\.md/i);
+    const filePath = fileMatch ? fileMatch[0] : null;
+    const summary = cleanText.substring(0, 250).split('\n').filter(l => l.trim()).slice(0, 4).join('\n');
 
-    // Обновляем дашборд
     dashboard.updateDashboard({
       agent: name,
       action: 'task_complete',
@@ -405,16 +403,15 @@ async function handleAgentTask(chatId, agentType, taskText) {
     });
 
     const dashUrl = dashboard.getDashboardUrl();
+    const lines = [
+      `✅ <b>${name}</b> — задача выполнена`,
+      '',
+      summary,
+    ];
+    if (filePath) lines.push('', `📁 <code>${filePath}</code>`);
+    lines.push('', `📊 <a href="${dashUrl}">Дашборд</a>`);
 
-    // Единое сообщение: краткий результат + дашборд + кнопки
-    await bot.sendMessage(chatId, [
-      `${emoji} <b>${name} — готово</b> ✅`,
-      `📋 <code>${issueIdentifier}</code>`,
-      '',
-      shortResult,
-      '',
-      `📊 <a href="${dashUrl}">Открыть дашборд</a> — изменения уже там`,
-    ].join('\n'), {
+    await bot.sendMessage(chatId, lines.join('\n'), {
       parse_mode: 'HTML',
       disable_web_page_preview: true,
       reply_markup: {
@@ -1429,18 +1426,32 @@ const OPS_MAP = [
     ];
     const match = fileMap.find(f => f.kw.some(k => low.includes(k)));
     if (match) {
-      const fs = require('fs');
       const fpath = require('path').join(__dirname, '..', match.file);
-      if (fs.existsSync(fpath)) {
-        const content = fs.readFileSync(fpath, 'utf8');
-        const short = content.length > 3000 ? content.substring(0, 3000) + '\n\n...(обрезано, полный файл на дашборде)' : content;
-        const gdocLine = match.gdoc ? `\n\n📄 <a href="${match.gdoc}">Открыть в Google Doc</a>` : '';
-        await bot.sendMessage(chatId, `📋 <b>${match.label}</b>\n\n<pre>${short.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>${gdocLine}`, { parse_mode: 'HTML', disable_web_page_preview: true });
+      if (require('fs').existsSync(fpath)) {
+        const lines = [
+          `📋 <b>${match.label}</b>`,
+        ];
+        if (match.gdoc) {
+          lines.push(`\n📄 <a href="${match.gdoc}">Открыть в Google Doc</a>`);
+        }
+        lines.push(`📊 <a href="http://localhost:3200">Дашборд</a>`);
+        lines.push(`\n📁 Файл: <code>${match.file}</code>`);
+        await bot.sendMessage(chatId, lines.join('\n'), { parse_mode: 'HTML', disable_web_page_preview: true });
       } else {
-        await bot.sendMessage(chatId, `⚠️ Файл ${match.label} не найден. Попроси AI-агента создать его.`);
+        await bot.sendMessage(chatId, `⚠️ ${match.label} ещё не создан. Напиши: <i>подготовь ${match.label.toLowerCase()}</i>`, { parse_mode: 'HTML' });
       }
     } else {
-      await bot.sendMessage(chatId, '📁 Доступные артефакты:\n• бриф сайта\n• мудборд сайта\n• бриф трейлера\n• питч Rock FM\n• питч НАШЕ Радио\n• питч Леосу\n• матрица мерча\n\nНапиши: <i>покажи бриф сайта</i>', { parse_mode: 'HTML' });
+      await bot.sendMessage(chatId, [
+        '📁 <b>Артефакты:</b>',
+        '',
+        '• <i>покажи бриф сайта</i>',
+        '• <i>покажи мудборд</i>',
+        '• <i>покажи бриф трейлера</i>',
+        '• <i>покажи питч Rock FM</i>',
+        '• <i>покажи питч НАШЕ Радио</i>',
+        '• <i>покажи питч Леосу</i>',
+        '• <i>покажи матрицу мерча</i>',
+      ].join('\n'), { parse_mode: 'HTML' });
     }
   }},
 ];
