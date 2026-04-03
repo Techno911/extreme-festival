@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T19:46:48.986Z",
+  "lastUpdated": "2026-04-03T22:59:07.527Z",
   "lastUpdatedBy": "CMO",
   "kpis": {
     "tickets": 16,
@@ -204,6 +204,72 @@
       "agent": "CMO",
       "action": "task_complete",
       "summary": "Собери мудборды для тендера сайта → Задача создана: **CMP-92** → head-strategy\n\nHead of Strategy соберёт два мудборда:\n- **Visual Style** — 8-12 визуальных "
+    },
+    {
+      "timestamp": "2026-04-03T22:52:16.755Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-58: [ceo] Свежий мониторинг конкурентов — что изменилось за неделю → done"
+    },
+    {
+      "timestamp": "2026-04-03T22:52:20.228Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-93: [ceo] Собери мудборды для тендера сайта → done"
+    },
+    {
+      "timestamp": "2026-04-03T22:58:44.423Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-95: [ceo] как оно там? → done"
+    },
+    {
+      "timestamp": "2026-04-03T22:58:47.596Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "как оно там? → Failed to authenticate. API Error: 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"OAuth token has"
+    },
+    {
+      "timestamp": "2026-04-03T22:58:47.608Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "как оно там? → Failed to authenticate. API Error: 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"OAuth token has"
+    },
+    {
+      "timestamp": "2026-04-03T22:58:55.718Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-96: [ceo] дай мне посмотреть на маркетинговый бриф → done"
+    },
+    {
+      "timestamp": "2026-04-03T22:58:57.464Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "дай мне посмотреть на маркетинговый бриф → Failed to authenticate. API Error: 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"OAuth token has"
+    },
+    {
+      "timestamp": "2026-04-03T22:58:57.468Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "дай мне посмотреть на маркетинговый бриф → Failed to authenticate. API Error: 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"OAuth token has"
+    },
+    {
+      "timestamp": "2026-04-03T22:59:01.241Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-94: [ceo] дай мне посмотреть на маркетинговый бриф → done"
+    },
+    {
+      "timestamp": "2026-04-03T22:59:07.524Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "дай мне посмотреть на маркетинговый бриф → Failed to authenticate. API Error: 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"OAuth token has"
+    },
+    {
+      "timestamp": "2026-04-03T22:59:07.527Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "дай мне посмотреть на маркетинговый бриф → Failed to authenticate. API Error: 401 {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"OAuth token has"
     }
   ],
   "sections": {

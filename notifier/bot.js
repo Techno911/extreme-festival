@@ -1405,6 +1405,33 @@ const OPS_MAP = [
   { keywords: ['cjm', 'воронка детально', 'покрытие s-id'], handler: handleCJM },
   { keywords: ['бюджет', 'расход', 'сколько потратил', 'остаток бюджет'], handler: handleBudget },
   { keywords: ['помо', 'что умеешь', 'как работ', 'команд'], handler: handleHelp },
+  { keywords: ['бриф', 'мудборд', 'питч', 'артефакт', 'посмотреть'], handler: async (chatId, text) => {
+    const low = text.toLowerCase();
+    const fileMap = [
+      { kw: ['бриф сайт', 'маркетинговый бриф', 'бриф для подряд'], file: 'output/outreach/tender-site/marketing-brief.md', label: 'Маркетинговый бриф (сайт)', gdoc: 'https://docs.google.com/document/d/1cG1ECugKpHUE9WbbJ-eP4yTcpKx70vbE0bCMijLLOqg/edit' },
+      { kw: ['мудборд сайт', 'мудборд'], file: 'output/outreach/tender-site/moodboard.md', label: 'Мудборд сайта', gdoc: 'https://docs.google.com/document/d/1B-jsyOOoeS_FgdcaO0Ano46PD-LHCD3ZNBR-BkeBL5c/edit' },
+      { kw: ['бриф трейлер', 'концепция трейлер'], file: 'output/tactic/е-трейлер-тендерный-пакет.md', label: 'Тендерный пакет: трейлер', gdoc: 'https://docs.google.com/document/d/1UlNS3OIUuBkb0Kc8aimu5udJKNlRO4IFpjoE2kSISbw/edit' },
+      { kw: ['питч rock', 'питч рок'], file: 'output/outreach/partners/rockfm-pitch-final.md', label: 'Питч Rock FM' },
+      { kw: ['питч наше'], file: 'output/outreach/partners/nashe-radio-pitch.md', label: 'Питч НАШЕ Радио' },
+      { kw: ['питч леос', 'питч leos'], file: 'output/outreach/ambassadors/01_leos.md', label: 'Питч Леосу' },
+      { kw: ['матрица мерч', 'мерч'], file: 'output/research/merch-matrix-test.md', label: 'Матрица мерча' },
+    ];
+    const match = fileMap.find(f => f.kw.some(k => low.includes(k)));
+    if (match) {
+      const fs = require('fs');
+      const fpath = require('path').join(__dirname, '..', match.file);
+      if (fs.existsSync(fpath)) {
+        const content = fs.readFileSync(fpath, 'utf8');
+        const short = content.length > 3000 ? content.substring(0, 3000) + '\n\n...(обрезано, полный файл на дашборде)' : content;
+        const gdocLine = match.gdoc ? `\n\n📄 <a href="${match.gdoc}">Открыть в Google Doc</a>` : '';
+        await bot.sendMessage(chatId, `📋 <b>${match.label}</b>\n\n<pre>${short.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>${gdocLine}`, { parse_mode: 'HTML', disable_web_page_preview: true });
+      } else {
+        await bot.sendMessage(chatId, `⚠️ Файл ${match.label} не найден. Попроси AI-агента создать его.`);
+      }
+    } else {
+      await bot.sendMessage(chatId, '📁 Доступные артефакты:\n• бриф сайта\n• мудборд сайта\n• бриф трейлера\n• питч Rock FM\n• питч НАШЕ Радио\n• питч Леосу\n• матрица мерча\n\nНапиши: <i>покажи бриф сайта</i>', { parse_mode: 'HTML' });
+    }
+  }},
 ];
 
 bot.on('message', async (msg) => {
