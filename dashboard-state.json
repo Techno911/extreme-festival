@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-04-03T13:11:55.314Z",
-  "lastUpdatedBy": "test",
+  "lastUpdated": "2026-04-03T16:44:04.590Z",
+  "lastUpdatedBy": "head-growth",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
-    "ambassadors": 0,
-    "partners": 1,
+    "ambassadors": 2,
+    "partners": 3,
     "bloggersReach": 0,
-    "contentDrafts": 32,
-    "sectionsReady": 13,
-    "tendersLaunched": 0
+    "contentDrafts": 35,
+    "sectionsReady": 19,
+    "tendersLaunched": 1
   },
   "checkpoints": {},
   "changelog": [
@@ -30,6 +30,54 @@
       "agent": "test",
       "action": "verify",
       "summary": "Проверка интеграции"
+    },
+    {
+      "timestamp": "2026-04-03T16:33:32.577Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-70: [ceo] дай посты на неделю → done"
+    },
+    {
+      "timestamp": "2026-04-03T16:33:33.848Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "дай посты на неделю → Понял: нужна неделя постов для ВК и ТГ.\n\nСоздал задачу **CMP-71** → `head-content`\n\nHead of Content декомпозирует по руб"
+    },
+    {
+      "timestamp": "2026-04-03T16:33:33.855Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "дай посты на неделю → Понял: нужна неделя постов для ВК и ТГ.\n\nСоздал задачу **CMP-71** → `head-content`\n\nHead of Content декомпозирует по руб"
+    },
+    {
+      "timestamp": "2026-04-03T16:35:27.614Z",
+      "agent": "head-content",
+      "action": "completed",
+      "summary": "CMP-71: Контент-план: посты на неделю (ВК + ТГ) → done"
+    },
+    {
+      "timestamp": "2026-04-03T16:36:50.367Z",
+      "agent": "content-ops",
+      "action": "completed",
+      "summary": "CMP-72: Проверка черновиков: posts_week1.md → done"
+    },
+    {
+      "timestamp": "2026-04-03T16:39:19.000Z",
+      "agent": "researcher",
+      "action": "completed",
+      "summary": "CMP-74: ВК Скрежет металла: подписчики и активность → done"
+    },
+    {
+      "timestamp": "2026-04-03T16:39:48.369Z",
+      "agent": "writer",
+      "action": "completed",
+      "summary": "CMP-75: Питч инфопартнёру: конкурентные аргументы Эстрим Феста → done"
+    },
+    {
+      "timestamp": "2026-04-03T16:44:04.579Z",
+      "agent": "head-growth",
+      "action": "completed",
+      "summary": "CMP-73: Мониторинг конкурентов — апрель 2026 → done"
     }
   ]
 }

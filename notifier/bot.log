@@ -135,3 +135,15 @@ error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: socket hang up
 error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: getaddrinfo ENOTFOUND api.telegram.org"}
 error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: getaddrinfo ENOTFOUND api.telegram.org"}
 error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: socket hang up"}
+[handleAgentTask] chatId=41977400 agent=ceo task="дай посты на неделю"
+[Paperclip] Issue создан: CMP-70 → [ceo] дай посты на неделю
+[handleAgentTask] issue created: CMP-70 source=paperclip
+[handleAgentTask] status msg sent, msg_id=104
+[handleAgentTask] heartbeat invoked for ceo
+[handleAgentTask] polling db878f7a-5220-456d-9209-e6cb1156c724...
+[handleAgentTask] CMP-70 status → backlog
+[handleAgentTask] CMP-70 status → in_progress
+[handleAgentTask] CMP-70 status → done
+[handleAgentTask] waitForCompletion done: result=done
+[handleAgentTask] delivering result, len=224
+[handleAgentTask] delivered: CMP-70, dashboard updated

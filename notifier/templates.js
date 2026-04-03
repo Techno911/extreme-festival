@@ -123,18 +123,18 @@ ${topChannel ? `💡 Топ-канал этой недели: ${topChannel}` : '
  * Уведомление о завершении задачи агентом
  */
 function taskCompleted({ agentName, taskName, outputPath, summary, issueId }) {
-  const dashUrl = 'http://localhost:3200';
-  const paperclipUrl = issueId ? `http://localhost:3100/CMP/issues/${issueId}` : '';
-  return `✅ <b>Задача завершена</b>
+  // Краткий отчёт: первые 300 символов summary
+  const shortSummary = summary ? summary.slice(0, 300).replace(/<[^>]*>/g, '').trim() : '';
+  const resultLine = outputPath ? `\n📁 <code>${outputPath}</code>` : '';
+  const issueLine = issueId ? `\n🔗 <a href="http://localhost:3100/CMP/issues">Paperclip</a>` : '';
+  return `✅ <b>${agentName}</b> завершил задачу
 
-🤖 Агент: ${agentName}
-📋 Задача: ${taskName}
+📋 ${taskName}
+${shortSummary ? `\n💬 ${shortSummary}` : ''}${resultLine}
 
-${summary}
-
-📁 Результат: <code>${outputPath}</code>
-📊 Дашборд: <code>${dashUrl}</code>${paperclipUrl ? `\n🔗 Issue: <code>${paperclipUrl}</code>` : ''}`;
+📊 <a href="http://localhost:5173">Открыть дашборд</a>${issueLine}`;
 }
+
 
 module.exports = {
   dailyDigest,

@@ -10,6 +10,7 @@ skills:
   - content-strategy
   - merch
   - kanban-workflow
+  - moodboard-collection
 permissionMode: auto
 maxTurns: 40
 memory: project
