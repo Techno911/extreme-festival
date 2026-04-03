@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-03T19:42:53.447Z",
-  "lastUpdatedBy": "cmo",
+  "lastUpdated": "2026-04-03T19:46:48.986Z",
+  "lastUpdatedBy": "CMO",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
@@ -186,6 +186,24 @@
       "agent": "cmo",
       "action": "completed",
       "summary": "CMP-90: [ceo] Напиши питч для НАШЕ Радио как инфопартнёра → done"
+    },
+    {
+      "timestamp": "2026-04-03T19:46:45.053Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-91: [ceo] Собери мудборды для тендера сайта → done"
+    },
+    {
+      "timestamp": "2026-04-03T19:46:48.981Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "Собери мудборды для тендера сайта → Задача создана: **CMP-92** → head-strategy\n\nHead of Strategy соберёт два мудборда:\n- **Visual Style** — 8-12 визуальных "
+    },
+    {
+      "timestamp": "2026-04-03T19:46:48.986Z",
+      "agent": "CMO",
+      "action": "task_complete",
+      "summary": "Собери мудборды для тендера сайта → Задача создана: **CMP-92** → head-strategy\n\nHead of Strategy соберёт два мудборда:\n- **Visual Style** — 8-12 визуальных "
     }
   ],
   "sections": {
