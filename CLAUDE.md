@@ -170,4 +170,16 @@ CMO → Head of Strategy (Researcher, Tactic Writer, Audience Analyst)
 
 **dashboard-server.js CWD-баг**: `cd dashboard && node dashboard-server.js` = MODULE_NOT_FOUND. Всегда запускать из корня: `cd ~/Desktop/Extreme_festival && node dashboard-server.js`
 
-**Буквы разделов (А, Б, В...) — ЗАПРЕЩЕНЫ в UI.** Пользователь 4 раза повторил. Поле `letter` удалено из sections.ts. Никогда не возвращать.
+**Буквы разделов (А, Б, В...) — ЗАПРЕЩЕНЫ в UI.** Пользователь 4+ раз повторил. Поле `letter` удалено из sections.ts. В timeline section тэги тоже должны быть словами (Сайт, Контент), а не буквами. Никогда не возвращать.
+
+### Форматы артефактов (REFLECT — 4 апреля 2026)
+
+**.md — формат для агентов, не для Жени.** Двухуровневая система:
+- Агенты пишут в .md (внутренний формат)
+- Доставка: питч → текст в ТГ-боте, бриф → Google Doc, мудборд → Milanote, контент-план → Google Sheets
+
+**Бот показывает ПОЛНЫЙ текст** actionable артефактов (< 2000 зн). Не ссылку на файл, а сам текст для copy-paste.
+
+**dashboard-server CWD:** ВСЕГДА запускать из корня (`cd ~/Desktop/Extreme_festival && node dashboard-server.js`), НЕ из dashboard/. Ошибка повторялась 10+ раз за сессию.
+
+**Таймлайн: каждая задача = глагол + результат + (файл: path).** Не «Первые питчи инфопартнёрам», а «Отправить питч Rock FM (файл: rockfm-pitch-final.md)».
