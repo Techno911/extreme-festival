@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-03T19:04:28.122Z",
-  "lastUpdatedBy": "user",
+  "lastUpdated": "2026-04-03T19:42:53.447Z",
+  "lastUpdatedBy": "cmo",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
@@ -180,6 +180,12 @@
       "agent": "cmo",
       "action": "completed",
       "summary": "CMP-89: [ceo] Подготовь питч для Rock FM — готовый для отправки → done"
+    },
+    {
+      "timestamp": "2026-04-03T19:42:53.438Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-90: [ceo] Напиши питч для НАШЕ Радио как инфопартнёра → done"
     }
   ],
   "sections": {
