@@ -15,7 +15,7 @@ export function Timeline({ dashState: _dashState }: TimelineProps) {
       <div>
         <h1 className="text-2xl font-bold text-text">Таймлайн: 14 недель до фестиваля</h1>
         <p className="text-sm text-text-dim mt-1">
-          4 фазы: Awareness → Consideration → FOMO → Last Call.
+          4 фазы: Узнаваемость → Прогрев → Ажиотаж → Последний шанс.
           {currentWeek > 0 && currentWeek <= 14 && (
             <span className="text-brand ml-1">Сейчас: неделя {currentWeek}</span>
           )}
