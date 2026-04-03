@@ -172,8 +172,8 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
             Артефакты ({dashState.state.sections[sectionId].artifacts.length})
           </h2>
           <div className="space-y-2">
-            {dashState.state.sections[sectionId].artifacts.map((a: { path: string; modified: string }, i: number) => {
-              const name = a.path.split('/').pop() || a.path;
+            {dashState.state.sections[sectionId].artifacts.map((a: { path: string; name?: string; modified: string }, i: number) => {
+              const name = a.name || a.path.split('/').pop() || a.path;
               const viewUrl = `/api/file?path=${encodeURIComponent(a.path)}`;
               return (
                 <a
@@ -197,6 +197,69 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
               );
             })}
           </div>
+        </div>
+      )}
+
+      {/* Standards — ЧиП guides relevant to this section */}
+      {(sectionId === 'site' || sectionId === 'trailer' || sectionId === 'contractors') && (
+        <div className="bg-surface-2 border border-border rounded-2xl p-5">
+          <h2 className="text-base font-semibold text-text mb-3">Стандарты ЧиП</h2>
+          <div className="space-y-2">
+            <a href="/api/file?path=.claude/skills/tender-process/SKILL.md" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+              <ExternalLink size={12} className="text-brand" />
+              Стандарт тендера ЧиП 3.2 (двухэтапная оценка, автоскоринг)
+            </a>
+            <a href="/api/file?path=.claude/skills/moodboard-collection/SKILL.md" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+              <ExternalLink size={12} className="text-brand" />
+              Как собирать мудборд (Visual Style + UX + Анти)
+            </a>
+          </div>
+        </div>
+      )}
+      {(sectionId === 'ambassadors' || sectionId === 'partners' || sectionId === 'bloggers') && (
+        <div className="bg-surface-2 border border-border rounded-2xl p-5">
+          <h2 className="text-base font-semibold text-text mb-3">Стандарты ЧиП</h2>
+          <div className="space-y-2">
+            <a href="/api/file?path=.claude/skills/ambassador-outreach/SKILL.md" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+              <ExternalLink size={12} className="text-brand" />
+              Как работать с амбассадорами (питч, кругляшок, follow-up)
+            </a>
+            <a href="/api/file?path=.claude/rules/prompt-contract.md" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+              <ExternalLink size={12} className="text-brand" />
+              Prompt Contract (как ставить задачу AI-агенту)
+            </a>
+          </div>
+        </div>
+      )}
+      {sectionId === 'content' && (
+        <div className="bg-surface-2 border border-border rounded-2xl p-5">
+          <h2 className="text-base font-semibold text-text mb-3">Стандарты ЧиП</h2>
+          <div className="space-y-2">
+            <a href="/api/file?path=.claude/skills/content-strategy/SKILL.md" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+              <ExternalLink size={12} className="text-brand" />
+              Контент-стратегия ЧиП (хук, A→B, механика вовлечения)
+            </a>
+            <a href="/api/file?path=.claude/skills/smm-rubrikator/SKILL.md" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+              <ExternalLink size={12} className="text-brand" />
+              Рубрикатор (S-ID, баланс воронки, расписание)
+            </a>
+          </div>
+        </div>
+      )}
+      {sectionId === 'merch' && (
+        <div className="bg-surface-2 border border-border rounded-2xl p-5">
+          <h2 className="text-base font-semibold text-text mb-3">Стандарты ЧиП</h2>
+          <a href="/api/file?path=.claude/skills/merch/SKILL.md" target="_blank" rel="noreferrer"
+            className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-3 text-sm text-text-dim hover:text-text transition-colors">
+            <ExternalLink size={12} className="text-brand" />
+            Мерч: ассортимент, дизайн-бриф, производство
+          </a>
         </div>
       )}
 

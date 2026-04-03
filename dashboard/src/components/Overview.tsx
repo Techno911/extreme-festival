@@ -111,42 +111,35 @@ export function Overview({ onNavigate, dashState }: OverviewProps) {
         </p>
       </div>
 
-      {/* TODAY — what Женя should do RIGHT NOW */}
-      <div className="bg-surface-2 border-2 border-brand/40 rounded-2xl p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <Zap size={18} className="text-brand" />
-          <h2 className="text-base font-semibold text-text">Сегодня</h2>
-        </div>
-        <div className="space-y-3">
-          <div className="flex items-start gap-3 p-3 rounded-xl bg-brand/5 border border-brand/20">
-            <span className="text-brand mt-0.5">1.</span>
-            <div>
-              <div className="text-sm text-text">Отправь питч Rock FM</div>
-              <div className="text-xs text-text-dim mt-1">
-                Скопируй из <a href="/api/file?path=output/outreach/partners/rockfm-pitch-final.md" target="_blank" className="text-brand hover:underline">rockfm-pitch-final.md</a> → вставь в ТГ редактору
-              </div>
-            </div>
+      {/* TODAY — dynamic actions from server */}
+      {(dashState.state?.todayActions?.length ?? 0) > 0 && (
+        <div className="bg-surface-2 border-2 border-brand/40 rounded-2xl p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Zap size={18} className="text-brand" />
+            <h2 className="text-base font-semibold text-text">Сегодня</h2>
           </div>
-          <div className="flex items-start gap-3 p-3 rounded-xl bg-surface-3 border border-border">
-            <span className="text-text-dim mt-0.5">2.</span>
-            <div>
-              <div className="text-sm text-text">Отправь 3 питча амбассадорам</div>
-              <div className="text-xs text-text-dim mt-1">
-                Файлы в <a href="/api/file?path=output/outreach/ambassadors/01_leos.md" target="_blank" className="text-brand hover:underline">outreach/ambassadors/</a> — Леос, Титаев, Master
+          <div className="space-y-3">
+            {(dashState.state?.todayActions as { label: string; detail: string; files: string[]; priority: number }[])?.map((action, i) => (
+              <div key={i} className={`flex items-start gap-3 p-3 rounded-xl ${i === 0 ? 'bg-brand/5 border border-brand/20' : 'bg-surface-3 border border-border'}`}>
+                <span className={`mt-0.5 font-medium ${i === 0 ? 'text-brand' : 'text-text-dim'}`}>{i + 1}.</span>
+                <div className="flex-1">
+                  <div className="text-sm text-text font-medium">{action.label}</div>
+                  <div className="text-xs text-text-dim mt-1">{action.detail}</div>
+                  {action.files?.length > 0 && (
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      {action.files.map((f, j) => (
+                        <a key={j} href={`/api/file?path=${encodeURIComponent(f)}`} target="_blank" rel="noreferrer" className="text-xs text-brand hover:underline">
+                          {f.split('/').pop()}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-3 rounded-xl bg-surface-3 border border-border">
-            <span className="text-text-dim mt-0.5">3.</span>
-            <div>
-              <div className="text-sm text-text">Отправь бриф 5 подрядчикам сайта</div>
-              <div className="text-xs text-text-dim mt-1">
-                Письмо: <a href="/api/file?path=output/outreach/tender-site/outreach-letter.md" target="_blank" className="text-brand hover:underline">outreach-letter.md</a> + бриф: <a href="/api/file?path=output/outreach/tender-site/marketing-brief.md" target="_blank" className="text-brand hover:underline">marketing-brief.md</a>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Quick links */}
       <div className="flex gap-3 flex-wrap">

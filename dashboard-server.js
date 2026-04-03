@@ -116,6 +116,36 @@ function scanSections() {
   const researchDir = path.join(outputDir, 'research');
 
   // Map section id → artifacts (files that prove work was done)
+  // Human-readable names for artifacts
+  const nameMap = {
+    'а-стратегия.md': 'Стратегия продвижения',
+    'б-анализ-рынка.md': 'Анализ рынка и конкурентов',
+    'конкурентная-стратегия.md': 'Конкурентная стратегия',
+    'в-рекламный-бюджет.md': 'Рекламный бюджет (1.5 млн)',
+    'г-план-продаж-билетов.md': 'План продаж билетов',
+    'д-сайт-тендерный-пакет.md': 'Тендерный пакет: сайт',
+    'е-трейлер-тендерный-пакет.md': 'Тендерный пакет: трейлер',
+    'ж-амбассадоры.md': 'Стратегия амбассадоров',
+    'з-инфопартнёры.md': 'Стратегия инфопартнёров',
+    'и-блогеры.md': 'Стратегия блогеров и посевов',
+    'к-контент-стратегия.md': 'Контент-стратегия и рубрикатор',
+    'л-мерч.md': 'Ассортимент и продажи мерча',
+    'м-подрядчики.md': 'Стандарт тендера ЧиП (9 элементов)',
+    'н-календарный-план.md': 'Календарный план 14 недель',
+    'marketing-brief.md': 'Маркетинговый бриф (ЧиП 2.5)',
+    'moodboard.md': 'Мудборд: Visual Style + UX + Анти',
+    'outreach-letter.md': 'Письмо подрядчикам (copy-paste)',
+    'block4-audience.md': 'Блок 4: ЦА по AJTBD',
+    'rockfm-pitch-final.md': 'Питч Rock FM (готов к отправке)',
+    'partner-rockfm-test.md': 'Питч Rock FM (черновик)',
+    'brief_kruzhok.md': 'Инструкция для кругляшка',
+    'krug-brief.md': 'Бриф для записи кругляшка',
+    'merch-matrix-test.md': 'Матрица мерча (метал + скейт)',
+    'competitive-analysis-frameworks-2026.md': 'Фреймворки конкурентного анализа',
+    'competitor-monitor-2026-04-03.md': 'Мониторинг конкурентов (3 апреля)',
+    'tg-metal-channels-test.md': '10 ТГ-каналов о метале',
+  };
+
   const artifactMap = {
     strategy: { files: ['а-стратегия.md'], dir: tacticDir },
     market: { files: ['б-анализ-рынка.md', 'конкурентная-стратегия.md'], dir: tacticDir, research: ['competitive-analysis-frameworks-2026.md', 'competitor-monitor-2026-04-03.md'] },
@@ -124,8 +154,8 @@ function scanSections() {
     site: { files: ['д-сайт-тендерный-пакет.md'], dir: tacticDir, outreach: ['tender-site/marketing-brief.md', 'tender-site/moodboard.md', 'tender-site/outreach-letter.md', 'tender-site/block4-audience.md'] },
     trailer: { files: ['е-трейлер-тендерный-пакет.md'], dir: tacticDir },
     ambassadors: { files: ['ж-амбассадоры.md'], dir: tacticDir, outreach: ['ambassadors/'] },
-    partners: { files: ['з-инфопартнёры.md'], dir: tacticDir, outreach: ['partner-rockfm-test.md'] },
-    bloggers: { files: ['и-блогеры.md'], dir: tacticDir },
+    partners: { files: ['з-инфопартнёры.md'], dir: tacticDir, outreach: ['partners/rockfm-pitch-final.md'] },
+    bloggers: { files: ['и-блогеры.md'], dir: tacticDir, research: ['tg-metal-channels-test.md'] },
     content: { files: ['к-контент-стратегия.md'], dir: tacticDir },
     merch: { files: ['л-мерч.md'], dir: tacticDir, research: ['merch-matrix-test.md'] },
     contractors: { files: ['м-подрядчики.md'], dir: tacticDir },
@@ -140,7 +170,8 @@ function scanSections() {
       const fp = path.join(mapping.dir, f);
       if (fs.existsSync(fp)) {
         const stat = fs.statSync(fp);
-        artifacts.push({ path: `output/tactic/${f}`, size: stat.size, modified: stat.mtime.toISOString() });
+        const humanName = nameMap[f] || f;
+        artifacts.push({ path: `output/tactic/${f}`, name: humanName, size: stat.size, modified: stat.mtime.toISOString() });
       }
     }
     // Check outreach files
@@ -152,11 +183,14 @@ function scanSections() {
           if (fs.existsSync(fp)) {
             const files = fs.readdirSync(fp).filter(x => x.endsWith('.md'));
             files.forEach(x => {
-              artifacts.push({ path: `output/outreach/${f}${x}`, size: 0, modified: '' });
+              const hName = nameMap[x] || x.replace(/^\d+_/, '').replace('.md', '').replace(/_/g, ' ');
+            artifacts.push({ path: `output/outreach/${f}${x}`, name: hName, size: 0, modified: '' });
             });
           }
         } else if (fs.existsSync(fp)) {
-          artifacts.push({ path: `output/outreach/${f}`, size: fs.statSync(fp).size, modified: fs.statSync(fp).mtime.toISOString() });
+          const fn = f.split('/').pop();
+          const hName = nameMap[fn] || fn;
+          artifacts.push({ path: `output/outreach/${f}`, name: hName, size: fs.statSync(fp).size, modified: fs.statSync(fp).mtime.toISOString() });
         }
       }
     }
@@ -165,7 +199,8 @@ function scanSections() {
       for (const f of mapping.research) {
         const fp = path.join(researchDir, f);
         if (fs.existsSync(fp)) {
-          artifacts.push({ path: `output/research/${f}`, size: fs.statSync(fp).size, modified: fs.statSync(fp).mtime.toISOString() });
+          const rName = nameMap[f] || f;
+          artifacts.push({ path: `output/research/${f}`, name: rName, size: fs.statSync(fp).size, modified: fs.statSync(fp).mtime.toISOString() });
         }
       }
     }
@@ -223,6 +258,68 @@ function scanAutoCheckpoints() {
   return result;
 }
 
+// ── Today's actions: what Женя should do RIGHT NOW ──
+function getTodayActions() {
+  const outreach = path.join(__dirname, 'output', 'outreach');
+  const actions = [];
+
+  // Check ready-to-send artifacts
+  const checks = [
+    { file: 'partners/rockfm-pitch-final.md', label: 'Отправь питч Rock FM', detail: 'Скопируй текст → вставь в ТГ редактору' },
+    { file: 'tender-site/outreach-letter.md', label: 'Отправь бриф подрядчикам сайта', detail: 'Письмо + бриф → 5 подрядчикам в день' },
+    { file: 'tender-site/marketing-brief.md', hidden: true }, // dependency of above
+  ];
+
+  // Ambassador pitches
+  const ambDir = path.join(outreach, 'ambassadors');
+  if (fs.existsSync(ambDir)) {
+    const pitches = fs.readdirSync(ambDir).filter(f => f.match(/^\d+_/) && f.endsWith('.md'));
+    if (pitches.length > 0) {
+      actions.push({
+        label: `Отправь ${Math.min(3, pitches.length)} питча амбассадорам`,
+        detail: `${pitches.length} писем готовы в outreach/ambassadors/`,
+        files: pitches.slice(0, 3).map(f => `output/outreach/ambassadors/${f}`),
+        priority: 1,
+      });
+    }
+  }
+
+  for (const c of checks) {
+    if (c.hidden) continue;
+    if (fs.existsSync(path.join(outreach, c.file))) {
+      actions.push({
+        label: c.label,
+        detail: c.detail,
+        files: [`output/outreach/${c.file}`],
+        priority: 2,
+      });
+    }
+  }
+
+  // Drafts for this week
+  const draftsDir = path.join(__dirname, 'output', 'drafts');
+  if (fs.existsSync(draftsDir)) {
+    const now = new Date();
+    const week = new Date(now.getTime() + 7 * 86400000);
+    const upcoming = fs.readdirSync(draftsDir).filter(f => {
+      const m = f.match(/^(\d{4}-\d{2}-\d{2})/);
+      if (!m) return false;
+      const d = new Date(m[1]);
+      return d >= now && d <= week;
+    });
+    if (upcoming.length > 0) {
+      actions.push({
+        label: `${upcoming.length} постов на эту неделю`,
+        detail: 'Проверь и опубликуй из output/drafts/',
+        files: upcoming.slice(0, 2).map(f => `output/drafts/${f}`),
+        priority: 3,
+      });
+    }
+  }
+
+  return actions.sort((a, b) => a.priority - b.priority).slice(0, 4);
+}
+
 const server = http.createServer((req, res) => {
   // CORS headers for dev
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -236,15 +333,16 @@ const server = http.createServer((req, res) => {
 
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
-  // API: read state (includes live KPIs + section artifacts + auto-checkpoints)
+  // API: read state (includes live KPIs + section artifacts + auto-checkpoints + today actions)
   if (url.pathname === '/api/state' && req.method === 'GET') {
     const state = readState();
     state.sections = scanSections();
+    state.todayActions = getTodayActions();
     // Merge auto-checkpoints (file-based) with user checkpoints
     const auto = scanAutoCheckpoints();
     for (const [key, done] of Object.entries(auto)) {
       if (done && !(key in state.checkpoints)) {
-        state.checkpoints[key] = true; // Auto-set if file exists
+        state.checkpoints[key] = true;
       }
     }
     res.writeHead(200, { 'Content-Type': 'application/json' });

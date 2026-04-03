@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-03T18:39:47.075Z",
-  "lastUpdatedBy": "cmo",
+  "lastUpdated": "2026-04-03T19:04:28.122Z",
+  "lastUpdatedBy": "user",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
@@ -212,8 +212,8 @@
         },
         {
           "path": "output/research/competitor-monitor-2026-04-03.md",
-          "size": 9822,
-          "modified": "2026-04-03T10:52:52.499Z"
+          "size": 10501,
+          "modified": "2026-04-03T18:44:47.837Z"
         }
       ],
       "count": 4
