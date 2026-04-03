@@ -45,7 +45,7 @@ export const milestones: Milestone[] = [
 export const phases: Phase[] = [
   {
     id: 'awareness',
-    name: 'AWARENESS',
+    name: 'УЗНАВАЕМОСТЬ',
     subtitle: 'Осведомлённость — Pull',
     startDate: '2026-04-07',
     endDate: '2026-05-04',
@@ -91,7 +91,7 @@ export const phases: Phase[] = [
   },
   {
     id: 'consideration',
-    name: 'CONSIDERATION',
+    name: 'ПРОГРЕВ',
     subtitle: 'Снятие барьеров',
     startDate: '2026-05-05',
     endDate: '2026-06-01',
@@ -137,7 +137,7 @@ export const phases: Phase[] = [
   },
   {
     id: 'urgency',
-    name: 'URGENCY / FOMO',
+    name: 'АЖИОТАЖ',
     subtitle: 'Дефицит и срочность',
     startDate: '2026-06-02',
     endDate: '2026-06-29',
@@ -182,7 +182,7 @@ export const phases: Phase[] = [
   },
   {
     id: 'lastcall',
-    name: 'LAST CALL',
+    name: 'ПОСЛЕДНИЙ ШАНС',
     subtitle: 'Финальный рывок',
     startDate: '2026-06-30',
     endDate: '2026-07-11',

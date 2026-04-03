@@ -69,7 +69,7 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
 
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-2xl shrink-0">
-            {section.letter}
+            {section.title.charAt(0)}
           </div>
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-text">{section.title}</h1>

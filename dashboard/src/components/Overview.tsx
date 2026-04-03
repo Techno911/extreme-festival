@@ -38,7 +38,7 @@ function SectionCard({ section, onClick, dashState }: {
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-surface-3 flex items-center justify-center text-brand font-bold text-sm group-hover:bg-brand/10 transition-colors">
-            {section.letter}
+            {section.title.charAt(0)}
           </div>
           <div>
             <div className="text-sm font-medium text-text">{section.title}</div>
@@ -108,7 +108,7 @@ export function Overview({ onNavigate, dashState }: OverviewProps) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-text">Маркетинговая та��тика</h1>
+        <h1 className="text-2xl font-bold text-text">Маркетинговая тактика</h1>
         <p className="text-sm text-text-dim mt-1">
           Эстрим Фест — 11 июля 2026, Москва. 12 групп + иностранный хедлайнер. Цель: 1000+ билетов.
         </p>
