@@ -54,19 +54,19 @@ export const phases: Phase[] = [
       {
         number: 1, startDate: '2026-04-07', endDate: '2026-04-13',
         tasks: [
-          { title: 'Запустить тендер на сайт (RFP → 30 подрядчиков)', section: 'Сайт', done: false, critical: true },
-          { title: 'Согласовать AJTBD-профиль аудитории', section: 'Стратегия', done: true },
-          { title: 'Первые питчи инфопартнёрам', section: 'Партнёры', done: false },
-          { title: 'Публикация: анонс лайнапа ВК', section: 'Контент', done: false },
+          { title: 'Разослать бриф сайта 10 подрядчикам (файл: outreach-letter.md)', section: 'Сайт', done: false, critical: true },
+          { title: 'Отправить питч Rock FM (файл: rockfm-pitch-final.md)', section: 'Партнёры', done: false },
+          { title: 'Отправить 3 питча амбассадорам (файлы: outreach/ambassadors/)', section: 'Амбассадоры', done: false },
+          { title: 'Опубликовать пост: анонс лайнапа ВК (файл: drafts/)', section: 'Контент', done: false },
         ],
       },
       {
         number: 2, startDate: '2026-04-14', endDate: '2026-04-20',
         tasks: [
-          { title: 'Собрать предложения по сайту (звонки)', section: 'Сайт', done: false },
-          { title: 'Отправить 10 питчей амбассадорам', section: 'Амбассадоры', done: false },
-          { title: 'Публикация: Группа недели — Master', section: 'Контент', done: false },
-          { title: 'Публикация: Extreme Опрос #1', section: 'Контент', done: false },
+          { title: 'Разослать ещё 20 брифов сайта + ждать КП', section: 'Сайт', done: false },
+          { title: 'Отправить оставшиеся 7 питчей амбассадорам', section: 'Амбассадоры', done: false },
+          { title: 'Опубликовать: Группа недели — Master (файл: drafts/)', section: 'Контент', done: false },
+          { title: 'Опубликовать: Extreme Opros #1 (файл: drafts/)', section: 'Контент', done: false },
         ],
       },
       {
