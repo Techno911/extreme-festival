@@ -165,3 +165,9 @@ CMO → Head of Strategy (Researcher, Tactic Writer, Audience Analyst)
 **Traceability** — каждый артефакт содержит: кто создал, по какой задаче (CMP-XX), какие acceptance criteria, когда, что делать дальше.
 
 **Dashboard показывает ТОЛЬКО то что помогает принять решение.** Если метрика не влияет на действие — убрать. «Позиций 0/8» бесполезно. «Мерч не заказан, дедлайн 25 мая» — полезно.
+
+**Prompt Contract = рабочий стандарт (проверено CMP-89).** Без него агент выдаёт мусор. С ним — actionable copy-paste за 30 сек. Файл: .claude/rules/prompt-contract.md
+
+**dashboard-server.js CWD-баг**: `cd dashboard && node dashboard-server.js` = MODULE_NOT_FOUND. Всегда запускать из корня: `cd ~/Desktop/Extreme_festival && node dashboard-server.js`
+
+**Буквы разделов (А, Б, В...) — ЗАПРЕЩЕНЫ в UI.** Пользователь 4 раза повторил. Поле `letter` удалено из sections.ts. Никогда не возвращать.

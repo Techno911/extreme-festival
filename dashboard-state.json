@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-03T18:21:57.865Z",
-  "lastUpdatedBy": "user",
+  "lastUpdated": "2026-04-03T18:39:47.075Z",
+  "lastUpdatedBy": "cmo",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
@@ -174,6 +174,12 @@
       "agent": "head-growth",
       "action": "completed",
       "summary": "CMP-80: Тендер сайта: проверка подрядчиков + письмо первого контакта → done"
+    },
+    {
+      "timestamp": "2026-04-03T18:39:47.066Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-89: [ceo] Подготовь питч для Rock FM — готовый для отправки → done"
     }
   ],
   "sections": {
