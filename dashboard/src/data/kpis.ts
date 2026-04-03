@@ -20,9 +20,10 @@ export const kpis: KPI[] = [
 ];
 
 export function getDaysUntilFestival(): number {
-  const fest = new Date('2026-07-11');
-  const now = new Date();
-  return Math.max(0, Math.ceil((fest.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+  // Moscow timezone (UTC+3) — фестиваль 11 июля 2026, Москва
+  const mskNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+  const fest = new Date('2026-07-11T00:00:00');
+  return Math.max(0, Math.ceil((fest.getTime() - mskNow.getTime()) / (1000 * 60 * 60 * 24)));
 }
 
 export function getCurrentWeek(): number {

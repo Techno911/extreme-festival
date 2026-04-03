@@ -53,9 +53,9 @@ interface SidebarProps {
 }
 
 export function Sidebar({ active, onNavigate, collapsed, onToggle }: SidebarProps) {
-  const fest = new Date('2026-07-11');
-  const now = new Date();
-  const daysLeft = Math.max(0, Math.ceil((fest.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+  const mskNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+  const fest = new Date('2026-07-11T00:00:00');
+  const daysLeft = Math.max(0, Math.ceil((fest.getTime() - mskNow.getTime()) / (1000 * 60 * 60 * 24)));
 
   return (
     <aside

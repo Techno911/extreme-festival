@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T17:50:54.148Z",
+  "lastUpdated": "2026-04-03T18:21:57.865Z",
   "lastUpdatedBy": "user",
   "kpis": {
     "tickets": 16,
@@ -18,7 +18,17 @@
     "budget:7": true,
     "strategy:1": true,
     "site:0": true,
-    "trailer:0": true
+    "trailer:0": true,
+    "site:1": true,
+    "ambassadors:0": true,
+    "ambassadors:1": true,
+    "partners:0": true,
+    "content:0": true,
+    "merch:0": true,
+    "calendar:0": true,
+    "calendar:4": true,
+    "calendar:3": true,
+    "merch:1": true
   },
   "changelog": [
     {
@@ -165,5 +175,242 @@
       "action": "completed",
       "summary": "CMP-80: Тендер сайта: проверка подрядчиков + письмо первого контакта → done"
     }
-  ]
+  ],
+  "sections": {
+    "strategy": {
+      "artifacts": [
+        {
+          "path": "output/tactic/а-стратегия.md",
+          "size": 14804,
+          "modified": "2026-04-03T09:35:16.889Z"
+        }
+      ],
+      "count": 1
+    },
+    "market": {
+      "artifacts": [
+        {
+          "path": "output/tactic/б-анализ-рынка.md",
+          "size": 13020,
+          "modified": "2026-03-31T20:12:51.721Z"
+        },
+        {
+          "path": "output/tactic/конкурентная-стратегия.md",
+          "size": 13006,
+          "modified": "2026-04-03T09:36:27.481Z"
+        },
+        {
+          "path": "output/research/competitive-analysis-frameworks-2026.md",
+          "size": 32593,
+          "modified": "2026-04-03T17:13:50.029Z"
+        },
+        {
+          "path": "output/research/competitor-monitor-2026-04-03.md",
+          "size": 9822,
+          "modified": "2026-04-03T10:52:52.499Z"
+        }
+      ],
+      "count": 4
+    },
+    "budget": {
+      "artifacts": [
+        {
+          "path": "output/tactic/в-рекламный-бюджет.md",
+          "size": 16132,
+          "modified": "2026-04-02T15:52:13.684Z"
+        }
+      ],
+      "count": 1
+    },
+    "sales": {
+      "artifacts": [
+        {
+          "path": "output/tactic/г-план-продаж-билетов.md",
+          "size": 19697,
+          "modified": "2026-04-02T15:47:46.211Z"
+        }
+      ],
+      "count": 1
+    },
+    "site": {
+      "artifacts": [
+        {
+          "path": "output/tactic/д-сайт-тендерный-пакет.md",
+          "size": 23163,
+          "modified": "2026-04-02T15:45:52.129Z"
+        },
+        {
+          "path": "output/outreach/tender-site/marketing-brief.md",
+          "size": 23442,
+          "modified": "2026-04-03T17:45:22.754Z"
+        },
+        {
+          "path": "output/outreach/tender-site/moodboard.md",
+          "size": 20999,
+          "modified": "2026-04-03T17:41:19.134Z"
+        },
+        {
+          "path": "output/outreach/tender-site/outreach-letter.md",
+          "size": 4343,
+          "modified": "2026-04-03T17:48:13.507Z"
+        },
+        {
+          "path": "output/outreach/tender-site/block4-audience.md",
+          "size": 9255,
+          "modified": "2026-04-03T17:31:59.219Z"
+        }
+      ],
+      "count": 5
+    },
+    "trailer": {
+      "artifacts": [
+        {
+          "path": "output/tactic/е-трейлер-тендерный-пакет.md",
+          "size": 18170,
+          "modified": "2026-04-02T15:43:04.312Z"
+        }
+      ],
+      "count": 1
+    },
+    "ambassadors": {
+      "artifacts": [
+        {
+          "path": "output/tactic/ж-амбассадоры.md",
+          "size": 17270,
+          "modified": "2026-04-02T15:40:49.066Z"
+        },
+        {
+          "path": "output/outreach/ambassadors/01_leos.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/02_titaev.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/03_master_alik.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/04_volya_i_razum.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/05_mjod.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/06_fakt_bmx.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/07_rampstroy.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/08_arbitrator.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/09_manic_depression.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/10_mass_madness.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/brief_kruzhok.md",
+          "size": 0,
+          "modified": ""
+        },
+        {
+          "path": "output/outreach/ambassadors/krug-brief.md",
+          "size": 0,
+          "modified": ""
+        }
+      ],
+      "count": 13
+    },
+    "partners": {
+      "artifacts": [
+        {
+          "path": "output/tactic/з-инфопартнёры.md",
+          "size": 23637,
+          "modified": "2026-04-02T16:07:57.816Z"
+        },
+        {
+          "path": "output/outreach/partner-rockfm-test.md",
+          "size": 1827,
+          "modified": "2026-04-03T16:23:16.397Z"
+        }
+      ],
+      "count": 2
+    },
+    "bloggers": {
+      "artifacts": [
+        {
+          "path": "output/tactic/и-блогеры.md",
+          "size": 20010,
+          "modified": "2026-04-02T15:09:20.195Z"
+        }
+      ],
+      "count": 1
+    },
+    "content": {
+      "artifacts": [
+        {
+          "path": "output/tactic/к-контент-стратегия.md",
+          "size": 19184,
+          "modified": "2026-03-31T19:40:55.703Z"
+        }
+      ],
+      "count": 1
+    },
+    "merch": {
+      "artifacts": [
+        {
+          "path": "output/tactic/л-мерч.md",
+          "size": 18725,
+          "modified": "2026-04-02T15:08:38.058Z"
+        },
+        {
+          "path": "output/research/merch-matrix-test.md",
+          "size": 7015,
+          "modified": "2026-04-03T16:24:07.559Z"
+        }
+      ],
+      "count": 2
+    },
+    "contractors": {
+      "artifacts": [
+        {
+          "path": "output/tactic/м-подрядчики.md",
+          "size": 26348,
+          "modified": "2026-04-02T15:06:13.862Z"
+        }
+      ],
+      "count": 1
+    },
+    "calendar": {
+      "artifacts": [
+        {
+          "path": "output/tactic/н-календарный-план.md",
+          "size": 10291,
+          "modified": "2026-03-31T19:32:43.779Z"
+        }
+      ],
+      "count": 1
+    }
+  }
 }

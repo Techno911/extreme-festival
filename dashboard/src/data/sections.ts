@@ -9,7 +9,7 @@ export interface Checkpoint {
 
 export interface Section {
   id: string;
-  letter: string;
+  // letter removed — no Cyrillic letter badges in UI
   title: string;
   subtitle: string;
   status: SectionStatus;
@@ -29,7 +29,6 @@ import { SHEETS_MAIN, SHEETS_TENDER } from './links';
 export const sections: Section[] = [
   {
     id: 'strategy',
-    letter: 'А',
     title: 'Стратегия',
     subtitle: 'Позиционирование, аудитория, каналы',
     status: 'done',
@@ -48,7 +47,6 @@ export const sections: Section[] = [
   },
   {
     id: 'market',
-    letter: 'Б',
     title: 'Анализ рынка',
     subtitle: 'Конкуренты, бенчмарки, угрозы',
     status: 'done',
@@ -69,7 +67,6 @@ export const sections: Section[] = [
   },
   {
     id: 'budget',
-    letter: 'В',
     title: 'Рекламный бюджет',
     subtitle: '1.5 млн, 8 статей расходов',
     status: 'done',
@@ -92,7 +89,6 @@ export const sections: Section[] = [
   },
   {
     id: 'sales',
-    letter: 'Г',
     title: 'План продаж билетов',
     subtitle: 'Воронка, помесячно, 1000+ цель',
     status: 'in-progress',
@@ -113,7 +109,6 @@ export const sections: Section[] = [
   },
   {
     id: 'site',
-    letter: 'Д',
     title: 'Сайт (тендер)',
     subtitle: 'Tilda, 30 предложений, выбор подрядчика',
     status: 'not-started',
@@ -137,7 +132,6 @@ export const sections: Section[] = [
   },
   {
     id: 'trailer',
-    letter: 'Е',
     title: 'Трейлер (тендер)',
     subtitle: 'Видеопродакшн, 50 сек, атмосфера',
     status: 'not-started',
@@ -160,7 +154,6 @@ export const sections: Section[] = [
   },
   {
     id: 'ambassadors',
-    letter: 'Ж',
     title: 'Амбассадоры',
     subtitle: '28 контактов, кругляши, UGC',
     status: 'not-started',
@@ -182,7 +175,6 @@ export const sections: Section[] = [
   },
   {
     id: 'partners',
-    letter: 'З',
     title: 'Инфопартнёры',
     subtitle: 'Радио, СМИ, площадки, бартер',
     status: 'in-progress',
@@ -203,7 +195,6 @@ export const sections: Section[] = [
   },
   {
     id: 'bloggers',
-    letter: 'И',
     title: 'Блогеры и посевы',
     subtitle: 'ТГ-каналы, ВК, 500k+ охват',
     status: 'not-started',
@@ -224,7 +215,6 @@ export const sections: Section[] = [
   },
   {
     id: 'content',
-    letter: 'К',
     title: 'Контент-стратегия',
     subtitle: 'Рубрикатор, 2-3 поста/день, Google Sheets',
     status: 'in-progress',
@@ -246,7 +236,6 @@ export const sections: Section[] = [
   },
   {
     id: 'merch',
-    letter: 'Л',
     title: 'Мерч',
     subtitle: 'Ассортимент, дизайн, продажи',
     status: 'not-started',
@@ -254,7 +243,7 @@ export const sections: Section[] = [
     budget: '100 000 ₽',
     deadline: '25 мая',
     responsible: 'Женя + Давид',
-    keyMetric: 'Позиций',
+    keyMetric: 'Позиций мерча',
     keyMetricValue: '0 / 8',
     checkpoints: [
       { title: 'Ассортиментная матрица (8 SKU)', done: true },
@@ -268,7 +257,6 @@ export const sections: Section[] = [
   },
   {
     id: 'contractors',
-    letter: 'М',
     title: 'Подрядчики (стандарт)',
     subtitle: 'Тендерный процесс ЧиП, 9 элементов',
     status: 'done',
@@ -286,7 +274,6 @@ export const sections: Section[] = [
   },
   {
     id: 'calendar',
-    letter: 'Н',
     title: 'Календарный план',
     subtitle: '14 недель, 4 фазы, дедлайны',
     status: 'done',

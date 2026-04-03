@@ -17,7 +17,7 @@ export interface Week {
 
 export interface WeekTask {
   title: string;
-  section: string; // letter reference
+  section: string; // human-readable section name
   done: boolean;
   critical?: boolean;
 }
