@@ -1,5 +1,16 @@
 'use strict';
 
+// ── ГИПЕРСТАБИЛЬНОСТЬ: бот НИКОГДА не падает ──
+process.on('uncaughtException', (err) => {
+  console.error('[FATAL] Uncaught exception (bot stays alive):', err.message);
+  console.error(err.stack);
+  // НЕ вызываем process.exit() — бот продолжает работать
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[FATAL] Unhandled rejection (bot stays alive):', reason);
+  // НЕ вызываем process.exit() — бот продолжает работать
+});
+
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
@@ -1440,6 +1451,9 @@ bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text.toLowerCase();
 
+  // Обёртка: ошибка в одном сообщении НЕ убивает бота
+  try {
+
   // ── Check for pending revision (follow-up after "Доработай") ──
   if (global._pendingRevisions && global._pendingRevisions[chatId]) {
     const rev = global._pendingRevisions[chatId];
@@ -1489,10 +1503,25 @@ bot.on('message', async (msg) => {
   // ── Нет матча в TOPIC_MAP/OPS_MAP ──
   // Action-запрос → CMO; query без контекста → CMO тоже (он умнее нас)
   await handleAgentTask(chatId, 'ceo', msg.text);
+
+  } catch (err) {
+    console.error(`[bot] Error processing message: ${err.message}`);
+    try {
+      await bot.sendMessage(chatId, `⚠️ Ошибка: ${err.message.substring(0, 200)}\n\nПопробуй ещё раз или переформулируй.`);
+    } catch {}
+  }
 });
 
 // ─── Экспорт для внешних вызовов ─────────────────────────────────────────────
 
 module.exports = { notifyArtem, notifyZhenya, bot };
+
+// ── Polling error handler (бот НЕ падает) ──
+bot.on('polling_error', (err) => {
+  console.error('[bot] Polling error (stays alive):', err.message);
+});
+bot.on('error', (err) => {
+  console.error('[bot] General error (stays alive):', err.message);
+});
 
 console.log('🤘 ExtremeFest Notifier запущен');
