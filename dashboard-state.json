@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-03T16:44:04.590Z",
-  "lastUpdatedBy": "head-growth",
+  "lastUpdated": "2026-04-03T17:40:51.497Z",
+  "lastUpdatedBy": "head-strategy",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
@@ -11,7 +11,12 @@
     "sectionsReady": 19,
     "tendersLaunched": 1
   },
-  "checkpoints": {},
+  "checkpoints": {
+    "budget:0": true,
+    "budget:2": true,
+    "budget:1": true,
+    "budget:7": true
+  },
   "changelog": [
     {
       "timestamp": "2026-04-03T12:00:00Z",
@@ -78,6 +83,66 @@
       "agent": "head-growth",
       "action": "completed",
       "summary": "CMP-73: Мониторинг конкурентов — апрель 2026 → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:30:44.229Z",
+      "agent": "researcher",
+      "action": "completed",
+      "summary": "CMP-81: Блок 4 ЦА для тендера сайта → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:31:57.021Z",
+      "agent": "head-content",
+      "action": "completed",
+      "summary": "CMP-79: Мудборды для сайта: Visual Style + Content/UX + Анти → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:32:17.969Z",
+      "agent": "writer",
+      "action": "completed",
+      "summary": "CMP-82: Маркетинговый бриф для тендера сайта → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:32:50.268Z",
+      "agent": "head-content",
+      "action": "completed",
+      "summary": "CMP-85: Мудборд сайта — Visual Style + Content/UX + Анти → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:33:39.204Z",
+      "agent": "writer",
+      "action": "completed",
+      "summary": "CMP-84: Письмо первого контакта: тендер сайт → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:36:01.475Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-77: [ceo] Запусти первую волну амбассадоров: 10 питч-писем → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:37:35.315Z",
+      "agent": "cmo",
+      "action": "completed",
+      "summary": "CMP-76: [ceo] Запусти полный тендер на сайт: мудборды + бриф + 30 писем подрядчикам → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:40:09.515Z",
+      "agent": "head-strategy",
+      "action": "completed",
+      "summary": "CMP-86: Маркетинговый бриф для веб-студий (ЧиП 2.5, 5 блоков) → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:40:18.093Z",
+      "agent": "researcher",
+      "action": "completed",
+      "summary": "CMP-83: Верификация подрядчиков Tilda → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:40:51.487Z",
+      "agent": "head-strategy",
+      "action": "completed",
+      "summary": "CMP-78: Тендерный пакет сайта: AJTBD Block 4 + маркетинговый бриф → done"
     }
   ]
 }

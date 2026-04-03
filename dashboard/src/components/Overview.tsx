@@ -36,10 +36,7 @@ function SectionCard({ section, onClick, dashState }: {
       className="bg-surface-2 border border-border rounded-2xl p-4 text-left hover:border-brand/50 transition-all w-full group"
     >
       <div className="flex items-start justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-surface-3 flex items-center justify-center text-brand font-bold text-sm group-hover:bg-brand/10 transition-colors">
-            {section.title.charAt(0)}
-          </div>
+        <div>
           <div>
             <div className="text-sm font-medium text-text">{section.title}</div>
             <div className="text-xs text-text-dim">{section.subtitle}</div>

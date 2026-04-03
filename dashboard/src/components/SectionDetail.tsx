@@ -67,14 +67,9 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
           Назад к обзору
         </button>
 
-        <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-2xl shrink-0">
-            {section.title.charAt(0)}
-          </div>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-text">{section.title}</h1>
-            <p className="text-sm text-text-dim mt-1">{section.subtitle}</p>
-          </div>
+        <div>
+          <h1 className="text-2xl font-bold text-text">{section.title}</h1>
+          <p className="text-sm text-text-dim mt-1">{section.subtitle}</p>
         </div>
       </div>
 
