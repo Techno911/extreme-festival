@@ -1,0 +1,35 @@
+{
+  "lastUpdated": "2026-04-03T13:11:55.314Z",
+  "lastUpdatedBy": "test",
+  "kpis": {
+    "tickets": 16,
+    "budgetSpent": 0,
+    "ambassadors": 0,
+    "partners": 1,
+    "bloggersReach": 0,
+    "contentDrafts": 32,
+    "sectionsReady": 13,
+    "tendersLaunched": 0
+  },
+  "checkpoints": {},
+  "changelog": [
+    {
+      "timestamp": "2026-04-03T12:00:00Z",
+      "agent": "system",
+      "action": "init",
+      "summary": "Дашборд инициализирован. 13 разделов тактики загружены."
+    },
+    {
+      "timestamp": "2026-04-03T13:11:47.714Z",
+      "agent": "CMO",
+      "action": "test",
+      "summary": "Тестовая запись от CMO"
+    },
+    {
+      "timestamp": "2026-04-03T13:11:55.314Z",
+      "agent": "test",
+      "action": "verify",
+      "summary": "Проверка интеграции"
+    }
+  ]
+}

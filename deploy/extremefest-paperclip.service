@@ -1,0 +1,27 @@
+[Unit]
+Description=ExtremeFest Paperclip AI Platform
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/extremefest
+
+# Запуск Paperclip (npx paperclipai)
+ExecStart=/usr/bin/npx paperclipai
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=extremefest-paperclip
+
+# Переменные окружения
+EnvironmentFile=/opt/extremefest/.env
+
+# Лимиты (важно при 1.9GB RAM + 2GB swap)
+LimitNOFILE=65536
+MemoryMax=800M
+
+[Install]
+WantedBy=multi-user.target

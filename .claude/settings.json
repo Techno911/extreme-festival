@@ -1,0 +1,22 @@
+{
+  "model": "sonnet",
+  "permissions": {
+    "allow": [
+      "Read(*)",
+      "Write(output/**)",
+      "Write(context/mediakit.md)",
+      "Bash(curl *)",
+      "Bash(node notifier/*)"
+    ],
+    "deny": [
+      "Write(context/ExtremeFest_Context.md)",
+      "Write(context/contract.md)",
+      "Bash(rm -rf *)",
+      "Bash(docker *)",
+      "Bash(git push *)"
+    ]
+  },
+  "attribution": {
+    "commit": ""
+  }
+}

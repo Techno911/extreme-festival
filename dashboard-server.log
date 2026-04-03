@@ -1,0 +1,3 @@
+📊 Dashboard: http://localhost:3200
+📡 API:       http://localhost:3200/api/state
+📝 Changelog: POST http://localhost:3200/api/changelog

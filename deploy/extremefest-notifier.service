@@ -1,0 +1,27 @@
+[Unit]
+Description=ExtremeFest Telegram Notifier Bot
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/extremefest/notifier
+
+# Запуск бота
+ExecStart=/usr/bin/node bot.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=extremefest-notifier
+
+# Переменные окружения
+EnvironmentFile=/opt/extremefest/notifier/.env
+
+# Лимиты
+LimitNOFILE=65536
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target

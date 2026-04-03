@@ -1,0 +1,18 @@
+# ExtremeFest — Crontab entries
+# Установить: crontab -e  (на VPS /opt/extremefest/)
+
+# Ежедневный дайджест Жене — 10:00 МСК (UTC+3 = 07:00 UTC)
+0 7 * * * node /opt/extremefest/notifier/digest.js >> /var/log/extremefest-digest.log 2>&1
+
+# Бэкап output/ — 03:00 МСК ежедневно
+0 0 * * * tar -czf /opt/backups/extremefest_$(date +\%Y\%m\%d).tar.gz /opt/extremefest/output/ 2>/dev/null
+
+# Чистка старых бэкапов (хранить 30 дней)
+0 1 * * * find /opt/backups/ -name "extremefest_*.tar.gz" -mtime +30 -delete 2>/dev/null
+
+# Еженедельный отчёт продаж — пятница 18:00 МСК (15:00 UTC)
+0 15 * * 5 node /opt/extremefest/notifier/weekly-report.js >> /var/log/extremefest-weekly.log 2>&1
+
+# Проверка alive — каждые 5 минут (ping Артёму если бот упал)
+# Раскомментировать после деплоя:
+# */5 * * * * systemctl is-active --quiet extremefest-notifier || echo "ExtremeFest bot DOWN $(date)" | mail -s "ALERT" artem@chirkov.info

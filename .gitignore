@@ -1,0 +1,11 @@
+node_modules/
+.env
+.google-credentials.json
+.google-token.json
+.paperclip/
+dashboard/dist/
+*.tsbuildinfo
+.DS_Store
+/tmp/
+.claude/plans/
+.claude/projects/

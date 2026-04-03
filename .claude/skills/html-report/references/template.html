@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Эстрим Фест — Маркетинговая тактика</title>
+  <style>
+    :root {
+      --bg-primary:  #0d0d0d;
+      --bg-card:     #1a1a1a;
+      --bg-nav:      #111111;
+      --accent:      #cc0000;
+      --accent-hover:#ff1a1a;
+      --text-primary:#e8e8e8;
+      --text-muted:  #888888;
+      --border:      #2a2a2a;
+      --done:        #1a4a1a;
+      --done-text:   #4ade4a;
+      --wip:         #4a3a1a;
+      --wip-text:    #f0a040;
+      --todo:        #2a2a2a;
+      --todo-text:   #666666;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    nav {
+      width: 220px;
+      min-height: 100vh;
+      background: var(--bg-nav);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    nav .logo {
+      padding: 0 16px 20px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    nav .logo span { color: var(--text-muted); font-size: 11px; display: block; margin-top: 4px; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background: rgba(204,0,0,0.08);
+      border-left-color: var(--accent);
+    }
+
+    .nav-link .nav-id {
+      color: var(--accent);
+      font-weight: bold;
+      min-width: 16px;
+    }
+
+    .nav-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .nav-dot.done  { background: var(--done-text); }
+    .nav-dot.wip   { background: var(--wip-text); }
+    .nav-dot.todo  { background: #444; }
+
+    /* ── Main ── */
+    main {
+      margin-left: 220px;
+      flex: 1;
+      padding: 32px 40px;
+      max-width: 900px;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h1 {
+      font-size: 22px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .page-header .meta {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      margin: 20px 0;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-bg {
+      background: var(--border);
+      border-radius: 2px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── Section cards ── */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .section-card:target {
+      border-color: var(--accent);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-id {
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 16px;
+      min-width: 24px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .status-badge {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .status-badge.done   { background: var(--done); color: var(--done-text); }
+    .status-badge.wip    { background: var(--wip);  color: var(--wip-text); }
+    .status-badge.todo   { background: var(--todo); color: var(--todo-text); }
+    .status-badge.review { background: #1a1a4a; color: #8080ff; }
+
+    .section-body {
+      padding: 16px 20px;
+    }
+
+    .section-preview {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+    }
+
+    /* ── Checkpoints ── */
+    .checkpoints {
+      margin-bottom: 14px;
+    }
+
+    .checkpoints-title {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .checkpoint-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11px;
+      margin-bottom: 4px;
+      color: var(--text-muted);
+    }
+
+    .checkpoint-item.checked { color: var(--done-text); }
+    .checkpoint-item .cb { flex-shrink: 0; }
+
+    /* ── KPI row ── */
+    .kpi-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .kpi-chip {
+      background: rgba(204,0,0,0.12);
+      border: 1px solid rgba(204,0,0,0.3);
+      border-radius: 2px;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: var(--text-primary);
+    }
+
+    /* ── Action button ── */
+    .bot-action-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s;
+      letter-spacing: 1px;
+    }
+
+    .bot-action-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── Links ── */
+    .sheets-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-decoration: none;
+      margin-right: 16px;
+    }
+
+    .sheets-link:hover { color: var(--text-primary); }
+
+    /* ── Footer ── */
+    footer {
+      margin-left: 220px;
+      padding: 24px 40px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar navigation ── -->
+<nav>
+  <div class="logo">
+    ЭСТРИМ ФЕСТ
+    <span>Маркетинговая тактика</span>
+  </div>
+
+  <a href="#section-a" class="nav-link active">
+    <span class="nav-id">а</span> Стратегия
+    <span class="nav-dot done"></span>
+  </a>
+  <a href="#section-b" class="nav-link">
+    <span class="nav-id">б</span> Анализ рынка
+    <span class="nav-dot done"></span>
+  </a>
+  <a href="#section-v" class="nav-link">
+    <span class="nav-id">в</span> Трейлер
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#section-g" class="nav-link">
+    <span class="nav-id">г</span> Амбассадоры
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-d" class="nav-link">
+    <span class="nav-id">д</span> Сайт
+    <span class="nav-dot done"></span>
+  </a>
+  <a href="#section-e" class="nav-link">
+    <span class="nav-id">е</span> Трейлер-концепция
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-zh" class="nav-link">
+    <span class="nav-id">ж</span> Амб-пайплайн
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-z" class="nav-link">
+    <span class="nav-id">з</span> Инфопартнёры
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#section-i" class="nav-link">
+    <span class="nav-id">и</span> Блогеры
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-k" class="nav-link">
+    <span class="nav-id">к</span> Контент
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#section-l" class="nav-link">
+    <span class="nav-id">л</span> Мерч
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-m" class="nav-link">
+    <span class="nav-id">м</span> Подрядчики
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-n" class="nav-link">
+    <span class="nav-id">н</span> Календарь
+    <span class="nav-dot todo"></span>
+  </a>
+  <a href="#section-o" class="nav-link">
+    <span class="nav-id">о</span> Бюджет
+    <span class="nav-dot todo"></span>
+  </a>
+</nav>
+
+<!-- ── Main content ── -->
+<main>
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>// Маркетинговая тактика</h1>
+    <div class="meta">
+      Эстрим Фест · 11 июля 2026 · Москва &nbsp;|&nbsp;
+      Сгенерировано: {{DATE}} &nbsp;|&nbsp;
+      <a href="{{SHEETS_URL}}" class="sheets-link" target="_blank">↗ Google Sheets</a>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Прогресс тактики</span>
+        <span id="progress-text">{{DONE}}/{{TOTAL}} разделов</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar" style="width: {{PROGRESS_PCT}}%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Section: А — Стратегия ── -->
+  <div class="section-card" id="section-a" data-status="done">
+    <div class="section-header">
+      <span class="section-id">а</span>
+      <span class="section-title">Стратегия</span>
+      <span class="status-badge done">✅ Готово</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">{{PREVIEW_A}}</div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чекпоинты</div>
+        <div class="checkpoint-item checked"><span class="cb">☑</span> Позиционирование сформулировано</div>
+        <div class="checkpoint-item checked"><span class="cb">☑</span> 5 AJTBD-сегментов описаны</div>
+        <div class="checkpoint-item"><span class="cb">☐</span> Валидация через Critic</div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Цель: 1 000 билетов</span>
+        <span class="kpi-chip">Бюджет: ~1.4 млн ₽</span>
+        <span class="kpi-chip">Дедлайн: 11.07.2026</span>
+      </div>
+
+      <button class="bot-action-btn" data-cmd="доработай раздел а — стратегия">
+        Доработать через бот →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Section: Б — Анализ рынка ── -->
+  <div class="section-card" id="section-b" data-status="done">
+    <div class="section-header">
+      <span class="section-id">б</span>
+      <span class="section-title">Анализ рынка</span>
+      <span class="status-badge done">✅ Готово</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">{{PREVIEW_B}}</div>
+      <div class="kpi-row">
+        <span class="kpi-chip">Конкуренты: 2</span>
+        <span class="kpi-chip">Скрежет: конец июня</span>
+        <span class="kpi-chip">Китаев: 11 июля</span>
+      </div>
+      <button class="bot-action-btn" data-cmd="обнови анализ конкурентов">
+        Доработать через бот →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── ШАБЛОН ДЛЯ ОСТАЛЬНЫХ РАЗДЕЛОВ (копировать и менять) ── -->
+  <!-- data-status: done | wip | todo | review -->
+
+  <div class="section-card" id="section-v" data-status="wip">
+    <div class="section-header">
+      <span class="section-id">в</span>
+      <span class="section-title">Трейлер — тендерный пакет</span>
+      <span class="status-badge wip">🔄 В работе</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">{{PREVIEW_V}}</div>
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чекпоинты</div>
+        <div class="checkpoint-item"><span class="cb">☐</span> Тендерный пакет написан</div>
+        <div class="checkpoint-item"><span class="cb">☐</span> Подрядчик выбран до 11.05.2026</div>
+      </div>
+      <div class="kpi-row">
+        <span class="kpi-chip">Бюджет: ≤50 000 ₽</span>
+        <span class="kpi-chip">Дедлайн подрядчика: 11.05.2026</span>
+      </div>
+      <button class="bot-action-btn" data-cmd="доработай раздел в — трейлер тендер">
+        Доработать через бот →
+      </button>
+    </div>
+  </div>
+
+  <!-- Остальные разделы генерируются по тому же шаблону -->
+  <!-- Агент заменяет {{PREVIEW_X}} на реальное содержимое из .md файлов -->
+
+</main>
+
+<footer>
+  Эстрим Фест 2026 · AI Marketing Штаб · Сгенерировано автоматически из output/tactic/
+</footer>
+
+<script>
+  // Smooth scroll navigation
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  // Progress bar (computed from data-status attributes)
+  const allSections = document.querySelectorAll('[data-status]');
+  const doneSections = document.querySelectorAll('[data-status="done"]');
+  const pct = Math.round(doneSections.length / allSections.length * 100);
+  const bar = document.getElementById('progress-bar');
+  const txt = document.getElementById('progress-text');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = doneSections.length + '/' + allSections.length + ' разделов (' + pct + '%)';
+
+  // Bot action buttons — copy command to clipboard
+  document.querySelectorAll('.bot-action-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.dataset.cmd || '';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(cmd).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = '✓ Скопировано';
+          setTimeout(() => { btn.textContent = orig; }, 2000);
+        });
+      }
+    });
+  });
+
+  // Highlight active section on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = '#' + entry.target.id;
+        document.querySelectorAll('.nav-link').forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.section-card[id]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "extremefest-notifier",
+  "version": "1.0.0",
+  "description": "Telegram bot notifier for ExtremeFest marketing system",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.0.0",
+    "google-auth-library": "^10.6.2",
+    "googleapis": "^171.4.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "openai": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

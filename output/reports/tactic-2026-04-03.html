@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Эстрим Фест — Маркетинговая тактика v1.0</title>
+  <style>
+    :root {
+      --bg-primary:  #0d0d0d;
+      --bg-card:     #1a1a1a;
+      --bg-nav:      #111111;
+      --accent:      #cc0000;
+      --accent-hover:#ff1a1a;
+      --text-primary:#e8e8e8;
+      --text-muted:  #888888;
+      --border:      #2a2a2a;
+      --done:        #1a4a1a;
+      --done-text:   #4ade4a;
+      --wip:         #4a3a1a;
+      --wip-text:    #f0a040;
+      --todo:        #2a2a2a;
+      --todo-text:   #555555;
+      --review:      #1a1a4a;
+      --review-text: #8080ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    nav {
+      width: 220px;
+      min-height: 100vh;
+      background: var(--bg-nav);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    nav .logo {
+      padding: 0 16px 20px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    nav .logo span { color: var(--text-muted); font-size: 11px; display: block; margin-top: 4px; letter-spacing: 0; }
+
+    .nav-section {
+      padding: 10px 16px 4px;
+      font-size: 9px;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11px;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background: rgba(204,0,0,0.08);
+      border-left-color: var(--accent);
+    }
+
+    .nav-link .nav-id {
+      color: var(--accent);
+      font-weight: bold;
+      min-width: 18px;
+      font-size: 12px;
+    }
+
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .nav-dot.done   { background: var(--done-text); }
+    .nav-dot.wip    { background: var(--wip-text); }
+    .nav-dot.todo   { background: #333; }
+    .nav-dot.review { background: var(--review-text); }
+
+    /* ── Main ── */
+    main {
+      margin-left: 220px;
+      flex: 1;
+      padding: 32px 40px;
+      max-width: 960px;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h1 {
+      font-size: 20px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .page-header .meta {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    /* ── Progress bar ── */
+    .progress-wrap { margin: 18px 0; }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .progress-bar-bg {
+      background: var(--border);
+      border-radius: 2px;
+      height: 5px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ── KPI row (global) ── */
+    .global-kpi {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0 28px;
+    }
+
+    .kpi-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px 18px;
+      flex: 1;
+      min-width: 130px;
+    }
+
+    .kpi-block .kpi-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .kpi-block .kpi-value {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .kpi-block .kpi-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── Section cards ── */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      scroll-margin-top: 20px;
+    }
+
+    .section-card:target {
+      border-color: var(--accent);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-id {
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 15px;
+      min-width: 22px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .section-date {
+      font-size: 10px;
+      color: #444;
+    }
+
+    .status-badge {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .status-badge.done   { background: var(--done);   color: var(--done-text); }
+    .status-badge.wip    { background: var(--wip);    color: var(--wip-text); }
+    .status-badge.todo   { background: var(--todo);   color: var(--todo-text); }
+    .status-badge.review { background: var(--review); color: var(--review-text); }
+
+    .section-body { padding: 14px 18px; }
+
+    .section-preview {
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* ── Checkpoints ── */
+    .checkpoints { margin-bottom: 12px; }
+
+    .checkpoints-title {
+      font-size: 9px;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .checkpoint-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      font-size: 11px;
+      margin-bottom: 3px;
+      color: var(--text-muted);
+    }
+
+    .checkpoint-item.checked { color: var(--done-text); }
+    .checkpoint-item .cb { flex-shrink: 0; }
+
+    /* ── KPI row ── */
+    .kpi-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .kpi-chip {
+      background: rgba(204,0,0,0.10);
+      border: 1px solid rgba(204,0,0,0.25);
+      border-radius: 2px;
+      padding: 3px 8px;
+      font-size: 10px;
+      color: var(--text-primary);
+    }
+
+    /* ── Action buttons ── */
+    .section-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .bot-action-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 5px 12px;
+      font-family: inherit;
+      font-size: 10px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s;
+      letter-spacing: 1px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .bot-action-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .file-link {
+      font-size: 10px;
+      color: #444;
+      text-decoration: none;
+    }
+
+    .file-link:hover { color: var(--text-muted); }
+
+    /* ── Extra docs ── */
+    .extra-docs {
+      margin-top: 8px;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .extra-docs-title {
+      font-size: 10px;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .extra-doc-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      margin-bottom: 5px;
+      color: var(--text-muted);
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-left: 220px;
+      padding: 20px 40px;
+      border-top: 1px solid var(--border);
+      color: #333;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<nav>
+  <div class="logo">
+    ЭСТРИМ ФЕСТ
+    <span>Маркетинговая тактика · 2026-04-03</span>
+  </div>
+
+  <div class="nav-section">Основные разделы</div>
+
+  <a href="#sec-a" class="nav-link">
+    <span class="nav-id">А</span>Стратегия
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-b-market" class="nav-link">
+    <span class="nav-id">Б₁</span>Анализ рынка
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-b-site" class="nav-link">
+    <span class="nav-id">Б₂</span>Сайт — тендер
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-v-budget" class="nav-link">
+    <span class="nav-id">В₁</span>Рекламный бюджет
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-v-trailer" class="nav-link">
+    <span class="nav-id">В₂</span>Трейлер — тендер
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-g-tickets" class="nav-link">
+    <span class="nav-id">Г₁</span>План продаж билетов
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-g-amb" class="nav-link">
+    <span class="nav-id">Г₂</span>Амбассадоры
+    <span class="nav-dot done"></span>
+  </a>
+  <a href="#sec-d" class="nav-link">
+    <span class="nav-id">Д</span>Инфопартнёры
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-e" class="nav-link">
+    <span class="nav-id">Е</span>Блогеры
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-zh" class="nav-link">
+    <span class="nav-id">Ж</span>Контент-стратегия
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-z" class="nav-link">
+    <span class="nav-id">З</span>Мерч
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-i" class="nav-link">
+    <span class="nav-id">И</span>Подрядчики
+    <span class="nav-dot wip"></span>
+  </a>
+  <a href="#sec-k" class="nav-link">
+    <span class="nav-id">К</span>Календарный план
+    <span class="nav-dot wip"></span>
+  </a>
+
+  <div class="nav-section">Доп. документы</div>
+
+  <a href="#sec-extras" class="nav-link">
+    <span class="nav-id">+</span>Конкурент / ТЗ
+    <span class="nav-dot wip"></span>
+  </a>
+</nav>
+
+<!-- ── Main ── -->
+<main>
+
+  <div class="page-header">
+    <h1>Маркетинговая тактика</h1>
+    <div class="meta">
+      Эстрим Фест · 11 июля 2026, Москва · Сгенерировано: 2026-04-03
+      &nbsp;·&nbsp; Статус: <strong style="color: var(--wip-text)">В работе</strong>
+      &nbsp;·&nbsp; Разделов: 13 · Готово: 1 · Черновик: 12
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Готовность тактики</span>
+        <span>~8% (1/13 разделов утверждено)</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width: 8%"></div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Билеты — прогресс к цели</span>
+        <span>~16 / 1000 (1.6%)</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width: 1.6%; background: #666"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Dashboard -->
+  <div class="global-kpi">
+    <div class="kpi-block">
+      <div class="kpi-label">Продано билетов</div>
+      <div class="kpi-value">~16</div>
+      <div class="kpi-sub">цель: 1 000+</div>
+    </div>
+    <div class="kpi-block">
+      <div class="kpi-label">Дней до феста</div>
+      <div class="kpi-value">99</div>
+      <div class="kpi-sub">11 июля 2026</div>
+    </div>
+    <div class="kpi-block">
+      <div class="kpi-label">Маркетинг. бюджет</div>
+      <div class="kpi-value">1.4М</div>
+      <div class="kpi-sub">₽ (40% выручки)</div>
+    </div>
+    <div class="kpi-block">
+      <div class="kpi-label">Амбассадоры</div>
+      <div class="kpi-value">0/10</div>
+      <div class="kpi-sub">цель к 15 июня</div>
+    </div>
+    <div class="kpi-block">
+      <div class="kpi-label">Инфопартнёры</div>
+      <div class="kpi-value">0/15</div>
+      <div class="kpi-sub">цель к 15 мая</div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ А: СТРАТЕГИЯ ═══ -->
+  <div class="section-card" id="sec-a">
+    <div class="section-header">
+      <span class="section-id">А</span>
+      <span class="section-title">Стратегия — позиционирование, аудитория, каналы</span>
+      <span class="section-date">2026-03-31</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+«Эстрим Фест — один день, 12 серьёзных групп, без самодеятельности»
+Позиционирование: всё настоящее. Лайнап без компромиссов, профессиональный звук, иностранный хедлайнер.
+5 сегментов: Свои в тусовке (35-40%), Паломники (15-20%), Музыканты (10-15%), Скептики (10-15%), Искатели нового (15-20%).
+Три приоритетных канала: ВКонтакте (60%), Telegram (25%), Амбассадоры (15%).
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Позиционирование утверждено Женей
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> AJTBD-профиль согласован (5 сегментов)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Critic провёл валидацию (3 роли)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Распределение бюджета по каналам зафиксировано
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Целевой охват: 1 000–1 300 чел.</span>
+        <span class="kpi-chip">ВК: 60% усилий</span>
+        <span class="kpi-chip">ROI цель: окупить первый фест</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/validate-idea а-стратегия')">▶ /validate-idea</button>
+        <button class="bot-action-btn" onclick="copyCmd('/generate-tactic а')">▶ /generate-tactic а</button>
+        <span class="file-link">output/tactic/а-стратегия.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Б₁: АНАЛИЗ РЫНКА ═══ -->
+  <div class="section-card" id="sec-b-market">
+    <div class="section-header">
+      <span class="section-id">Б₁</span>
+      <span class="section-title">Анализ рынка и конкурентной среды</span>
+      <span class="section-date">2026-04-01</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Ёмкость рынка: активные метал-слушатели Москвы ~5 000–8 000 чел/год. Ядро треш/кроссовер: ~2 500.
+Скрежет металла: 38 групп, 19–21 июня, 3 500–6 500₽. Наши преимущества: иностранный хедлайнер, Master, цена ниже по нижней границе, единый жанровый уровень.
+Китаев: 11 июля (тот же день), площадка Grima, другой жанр — не прямой конкурент.
+Реалистичный прогноз: 745–1 025 чел. при работе по всем сегментам.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Данные по Скрежету актуализированы (апрель)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Ёмкость рынка верифицирована Researcher
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Critic: сравнительная таблица проверена
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Конкурент: Скрежет 38 групп, 3 дня</span>
+        <span class="kpi-chip">Наше УТП: 1 иностранец + Master</span>
+        <span class="kpi-chip">Ёмкость: ~2 500 ядро + 500 регионы</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/research конкуренты-апрель-2026')">▶ /research конкуренты</button>
+        <span class="file-link">output/tactic/б-анализ-рынка.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Б₂: САЙТ — ТЕНДЕР ═══ -->
+  <div class="section-card" id="sec-b-site">
+    <div class="section-header">
+      <span class="section-id">Б₂</span>
+      <span class="section-title">Сайт — маркетинговый бриф + тендерный пакет</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Черновик v2</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Платформа: Tilda. Бюджет: 80–150к ₽. Срок запуска: 1 июня 2026.
+Структура: главная (hero + лайнап) → программа → как добраться → купить билет.
+Путь клиента: соцсети/посевы → сайт → TicketsCloud → билет.
+Тендер запускается 7 апреля: 30 КП, выбор к 4 мая, онбординг 5 мая.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист — критические даты</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Тендерный пакет отправлен 30 подрядчикам (7 апр)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Собрано 15+ КП (до 21 апр)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Подрядчик выбран и договор подписан (4 мая)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Сайт запущен (1 июня)
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Бюджет: 80–150к ₽</span>
+        <span class="kpi-chip">Дедлайн: 1 июня</span>
+        <span class="kpi-chip">Предоплата ≤30%</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/run-tender сайт')">▶ /run-tender сайт</button>
+        <span class="file-link">output/tactic/д-сайт-тендерный-пакет.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ В₁: РЕКЛАМНЫЙ БЮДЖЕТ ═══ -->
+  <div class="section-card" id="sec-v-budget">
+    <div class="section-header">
+      <span class="section-id">В₁</span>
+      <span class="section-title">Рекламный бюджет — структура и распределение</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Бюджет: 1 400 000 ₽ (40% планируемой выручки ~3.5М).
+Активы (сайт + трейлер + фото): 190к. Таргет ВК: 600к. Посевы ТГ+ВК: 210к.
+Блогеры (платные, 1-2 с KPI): 80к. Офлайн (флаеры + афиши): 40к.
+Мерч (производство): 150к. Резерв: 110к. Аналитика: 20к.
+Принцип: 3 вещи мощно > 15 кое-как.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Бюджет согласован с Женей
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Разбивка по месяцам привязана к воронке (апр→май→июнь→июль)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Статья «мерч» привязана к плану производства (раздел З)
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Итого: 1 400 000 ₽</span>
+        <span class="kpi-chip">ВК таргет: 43%</span>
+        <span class="kpi-chip">Активы: 14%</span>
+        <span class="kpi-chip">Посевы: 15%</span>
+      </div>
+
+      <div class="section-footer">
+        <span class="file-link">output/tactic/в-рекламный-бюджет.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ В₂: ТРЕЙЛЕР — ТЕНДЕР ═══ -->
+  <div class="section-card" id="sec-v-trailer">
+    <div class="section-header">
+      <span class="section-id">В₂</span>
+      <span class="section-title">Трейлер — концепция EGC + тендерный пакет</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Формат: EGC (реальные люди, реальная атмосфера). НЕ мультик. Хронометраж: 60–90 сек.
+Структура: пустая площадка → саундчек → нарезка лайнапа (2 сек/группа) → скейт → слэм → «11 июля».
+Референсы: Wacken Open Air, Bloodstock aftermovie, Ektomorf live at club.
+Бюджет: до 50к ₽. Fallback: Женя + iPhone 15 Pro.
+Тендер: апрель. Съёмки: май. Публикация: 25 мая.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Концепция утверждена Женей
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Тендер запущен (апрель)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Съёмки проведены (до 25 мая)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Трейлер опубликован (25 мая)
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Бюджет: ≤50к ₽</span>
+        <span class="kpi-chip">Хронометраж: 60–90 сек</span>
+        <span class="kpi-chip">Дедлайн: 25 мая</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/run-tender трейлер')">▶ /run-tender трейлер</button>
+        <span class="file-link">output/tactic/е-трейлер-тендерный-пакет.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Г₁: ПЛАН ПРОДАЖ БИЛЕТОВ ═══ -->
+  <div class="section-card" id="sec-g-tickets">
+    <div class="section-header">
+      <span class="section-id">Г₁</span>
+      <span class="section-title">Помесячный план продаж билетов</span>
+      <span class="section-date">2026-04-01</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Продано на 14 марта: 15–16 билетов. Цена: 2 900–5 000 ₽. Средний чек: ~3 500 ₽.
+Цели: Апрель — 100–120 нак. Май — 250–320 нак. Июнь — 500+ нак. Июль — 1 000+ нак.
+Воронка: Awareness (март-апрель) → Consideration (май) → Urgency (июнь) → Last Call (июль).
+Каналы: ВК таргет (40%), ТГ посевы (20%), Амбассадоры (15%), Офлайн (10%), Прочие (15%).
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Milestone'ы</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 30 апр: 100–120 билетов (Awareness волна)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 31 мая: 250–320 билетов (сайт + трейлер)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 1 июля: 500+ билетов (FOMO активный)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 11 июля: 1 000+ билетов (цель минимум)
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Продано сейчас: ~16</span>
+        <span class="kpi-chip">Цель: 1 000+</span>
+        <span class="kpi-chip">Выручка цель: 3.5М ₽</span>
+      </div>
+
+      <div class="section-footer">
+        <span class="file-link">output/tactic/г-план-продаж-билетов.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Г₂: АМБАССАДОРЫ ═══ -->
+  <div class="section-card" id="sec-g-amb">
+    <div class="section-header">
+      <span class="section-id">Г₂</span>
+      <span class="section-title">Амбассадоры — пайплайн и конкретные кандидаты</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge done">Актуально</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Цель: 8–10 кружков/постов-рекомендаций к 15 июня 2026.
+Приоритет HIGH: Леос (Hell Scream, 500к+ YT) — через Ernie Ball или Женю Косырева. Участники лайнапа — через Женю Косырева (тёплый контакт).
+Принцип: 1 кружок от Леоса = 50 билетов. Три кружка от незнакомых = ноль.
+Сегментация: металлисты убеждают металлистов, скейтеры — скейтеров.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Пайплайн</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Питч-письма топ-3 HIGH ICE отправлены (14–20 апр)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Договорённость с Леосом (через Ernie Ball)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Все группы лайнапа получили ТЗ на кружок
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 10+ кружков опубликовано к 15 июня
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Цель: 10 кружков к 15 июня</span>
+        <span class="kpi-chip">HIGH ICE: Леос + участники лайнапа</span>
+        <span class="kpi-chip">Бюджет: бартер (билеты)</span>
+      </div>
+
+      <div class="section-footer">
+        <span class="file-link">output/tactic/ж-амбассадоры.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Д: ИНФОПАРТНЁРЫ ═══ -->
+  <div class="section-card" id="sec-d">
+    <div class="section-header">
+      <span class="section-id">Д</span>
+      <span class="section-title">Инфопартнёры + физические точки — 85+ контактов</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Обновлено</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Цель: 15+ подтверждённых партнёров к 15 мая. Суммарно ≤50 билетов на бартер.
+Приоритет 🔴: НАШЕ Радио (pr@nashe.ru) + Rock FM (info@rockfm.ru) — один холдинг, один питч.
+MetalKings.Org + Headbanger.ru — старейшие метал-порталы России.
+ТГ-каналы: @rok_muzyka (15.3к), @leruro (9.9к), @heavymetaldaily (4.6к).
+Агрегаторы: KudaGo + Afisha.ru — бесплатная публикация.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Волны outreach</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Волна 1 (7–13 апр): НАШЕ + Rock FM + MetalKings + KudaGo
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Волна 2 (14–20 апр): ТГ-каналы + Zig-Zag + Jazz House
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Follow-up (21–27 апр): все кто не ответил
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 15 мая: 15+ подтверждённых партнёров
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Лимит билетов: ≤50</span>
+        <span class="kpi-chip">Категорий: 6 (радио / порталы / ТГ / ВК / офлайн / агрегаторы)</span>
+        <span class="kpi-chip">Цель: 15+ к 15 мая</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/research инфопартнёры-волна-1')">▶ /research партнёры</button>
+        <span class="file-link">output/tactic/з-инфопартнёры.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Е: БЛОГЕРЫ ═══ -->
+  <div class="section-card" id="sec-e">
+    <div class="section-header">
+      <span class="section-id">Е</span>
+      <span class="section-title">Блогеры — классификация, форматы, посевы</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Обновлено</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Уровень 0 (500к+): Леос Hellscream Academy (YT 500к+) — бартер 2 VIP, через Ernie Ball.
+Уровень 1 (10–500к): Hellscream Vlog (48к), @rok_muzyka (15.3к), @leruro (9.9к), MetalKings, Headbanger.ru.
+Уровень 2 (1–10к): Heavy Metal Daily (4.6к), @metalsongs, @latest_metal_releases, Disgustingmen.
+Платные (с KPI): 1–2 блогера, бюджет 80к ₽, только с условием расторжения.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Топ-5 HIGH ICE блогеров питч отправлен (апрель)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Леос — договорённость о формате (реакция или влог)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 1–2 платных блогера выбраны с KPI (до 1 июня)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Первый розыгрыш у блогера (май)
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Платный бюджет: 80к ₽</span>
+        <span class="kpi-chip">Бартер: 2–4 билета/блогер</span>
+        <span class="kpi-chip">Розыгрышей: 2 (май + июнь)</span>
+      </div>
+
+      <div class="section-footer">
+        <span class="file-link">output/tactic/и-блогеры.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ Ж: КОНТЕНТ-СТРАТЕГИЯ ═══ -->
+  <div class="section-card" id="sec-zh">
+    <div class="section-header">
+      <span class="section-id">Ж</span>
+      <span class="section-title">Контент-стратегия — рубрики, каналы, тон</span>
+      <span class="section-date">2026-03-31</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+4 канала: ВК (основной, 2–3/нед), ТГ (2/нед), Insta (2–3/нед + Stories), VK Video (1–2/нед).
+9 рубрик: Группа недели (пн), Extreme Opros (вт), За кулисами (вт), Скетч Оли (сб), Таймер продаж (пт), Новости, Инфоповоды, Контент от групп, Финальный отсчёт.
+Тон: как друг за пивом. Конкретика > вода. AI-текст = ЗАПРЕТ.
+ContentOps пишет черновики, Женя публикует.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Чеклист</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Рубрикатор согласован с Женей
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Первая неделя постов подготовлена (ContentOps)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Google Sheets «Контентная» заполнен
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Оля получила ТЗ на первый скетч
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">9 рубрик / 4 канала</span>
+        <span class="kpi-chip">Апр-июль: 2–3 поста/нед → 5/нед ближе к июлю</span>
+        <span class="kpi-chip">Автопостинг: ЗАПРЕТ</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/draft-post группа-недели')">▶ /draft-post группа-недели</button>
+        <span class="file-link">output/tactic/к-контент-стратегия.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ З: МЕРЧ ═══ -->
+  <div class="section-card" id="sec-z">
+    <div class="section-header">
+      <span class="section-id">З</span>
+      <span class="section-title">Мерч — матрица SKU, производство, продажи</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Черновик v2</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+4 основных SKU: Футболка (100 шт, 420₽/шт, розница 1400₽) · Худи (40 шт, 850₽) · Бандана (150 шт, 95₽) · Значок (200 шт, 45₽).
+Вложения: ~99 250 ₽. Выручка при 60% продаж: ~192 300 ₽. ROI: 1.3–1.9×.
+Дедлайн макета Давиду: 1 мая. Заказ производства: 1 июня. Получение: 25 июня.
+Пресейл: 10–25 июня (для купивших билет). On-site: стол на фесте, продавец 5–8к+%.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Дедлайны производства</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> ТЗ Давиду/Оле передано (апрель)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Макеты финализированы (1 мая)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Подрядчик выбран (15 мая)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Заказ размещён (1 июня)
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Мерч получен (25 июня)
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Вложения: ~99к ₽</span>
+        <span class="kpi-chip">Выручка базовая: ~192к ₽</span>
+        <span class="kpi-chip">ROI: 1.9× при 60% продаж</span>
+      </div>
+
+      <div class="section-footer">
+        <span class="file-link">output/tactic/л-мерч.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ И: ПОДРЯДЧИКИ ═══ -->
+  <div class="section-card" id="sec-i">
+    <div class="section-header">
+      <span class="section-id">И</span>
+      <span class="section-title">Подрядчики — стандарт тендера ЧиП (9 элементов)</span>
+      <span class="section-date">2026-04-02</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Типы: Tilda-разработчик (апр, 80–150к), Видеопродакшн (апр-май, 80–150к), Фотограф (июль, 15–25к/день), Видеограф (июль, 20–35к/день), Монтажёр (по нужде, Kwork), Продавец мерча (июль, 5–8к+%).
+Процесс: бриф (5 блоков) → 30 КП → шорт-лист 3 → звонки → выбор → договор (≤50% предоплата).
+Красная линия: никаких агентств без KPI и условия расторжения.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Активные тендеры</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Тендер сайт: запущен 7 апр, выбор к 4 мая
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Тендер трейлер: запущен апрель, выбор к 5 мая
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> Фотограф для феста: выбор к июню
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">Предоплата: ≤30% (незнакомым ≤30%)</span>
+        <span class="kpi-chip">Условие расторжения: обязательно</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/run-tender сайт')">▶ /run-tender сайт</button>
+        <button class="bot-action-btn" onclick="copyCmd('/run-tender трейлер')">▶ /run-tender трейлер</button>
+        <span class="file-link">output/tactic/м-подрядчики.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ РАЗДЕЛ К: КАЛЕНДАРНЫЙ ПЛАН ═══ -->
+  <div class="section-card" id="sec-k">
+    <div class="section-header">
+      <span class="section-id">К</span>
+      <span class="section-title">Календарный план — апрель–июль 2026</span>
+      <span class="section-date">2026-03-31</span>
+      <span class="status-badge wip">Черновик</span>
+    </div>
+    <div class="section-body">
+      <div class="section-preview">
+Принцип: максимум 3 задачи в неделю для Жени. Май — критический месяц (максимальная нагрузка).
+Апрель: тендеры сайт + трейлер, первые питчи партнёрам, старт контента.
+Май: контроль подрядчиков, съёмки трейлера, онбординг сайта, первый мерч-заказ.
+Июнь: FOMO-волна, трейлер опубликован, амбассадоры (10+ кружков), посевы.
+Июль: ежедневный контент, обратный отсчёт, 11 июля — ФЕСТ.
+      </div>
+
+      <div class="checkpoints">
+        <div class="checkpoints-title">Критические milestone'ы</div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 20 апр: Тендер на сайт запущен
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 4 мая: Подрядчик сайта выбран
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 1 мая: Дизайн мерча у Давида/Оли
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 25 мая: Трейлер опубликован
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 1 июня: Сайт запущен
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 15 июня: 10+ кружков амбассадоров
+        </div>
+        <div class="checkpoint-item">
+          <span class="cb">[ ]</span> 1 июля: 500+ билетов
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <span class="kpi-chip">99 дней до феста</span>
+        <span class="kpi-chip">Нагрузка пик: май</span>
+        <span class="kpi-chip">Макс. 3 задачи/нед для Жени</span>
+      </div>
+
+      <div class="section-footer">
+        <button class="bot-action-btn" onclick="copyCmd('/check-status')">▶ /check-status</button>
+        <span class="file-link">output/tactic/н-календарный-план.md</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ДОПОЛНИТЕЛЬНЫЕ ДОКУМЕНТЫ ═══ -->
+  <div class="extra-docs" id="sec-extras">
+    <div class="extra-docs-title">Дополнительные документы</div>
+
+    <div class="extra-doc-item">
+      <span class="status-badge wip" style="font-size:9px">Готово</span>
+      <span><strong>Конкурентная стратегия</strong> — «Рыбный рынок vs ресторан с одним шефом». Stillbirth DE хедлайнер подтверждён. Детали стратегии vs Скрежет (внутренний документ).</span>
+      <span class="file-link" style="margin-left:auto">конкурентная-стратегия.md</span>
+    </div>
+
+    <div class="extra-doc-item">
+      <span class="status-badge wip" style="font-size:9px">Готово</span>
+      <span><strong>Positioning vs Competition</strong> — матрица позиционирования против рынка.</span>
+      <span class="file-link" style="margin-left:auto">positioning_vs_competition.md</span>
+    </div>
+
+    <div class="extra-doc-item">
+      <span class="status-badge wip" style="font-size:9px">Готово</span>
+      <span><strong>ТЗ логотип — Давид</strong> — техническое задание для дизайнера.</span>
+      <span class="file-link" style="margin-left:auto">тз-логотип-давид.md</span>
+    </div>
+
+    <div class="extra-doc-item">
+      <span class="status-badge wip" style="font-size:9px">Готово</span>
+      <span><strong>Дедлайны — Давид и Оля</strong> — таймлайн для дизайнеров.</span>
+      <span class="file-link" style="margin-left:auto">дедлайны-давид-оля.md</span>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Эстрим Фест — Маркетинговая тактика v1.0 · Сгенерировано html-report агентом · 2026-04-03
+  &nbsp;·&nbsp; Не для публикации · Внутренний документ
+  &nbsp;·&nbsp; Обновлять: /check-status → html-report
+</footer>
+
+<script>
+  // Copy command to clipboard
+  function copyCmd(cmd) {
+    navigator.clipboard.writeText(cmd).then(() => {
+      // brief visual flash
+      const btns = document.querySelectorAll('.bot-action-btn');
+      btns.forEach(b => {
+        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(cmd)) {
+          const orig = b.textContent;
+          b.textContent = '✓ скопировано';
+          b.style.background = 'var(--accent)';
+          b.style.color = '#fff';
+          setTimeout(() => {
+            b.textContent = orig;
+            b.style.background = '';
+            b.style.color = '';
+          }, 1200);
+        }
+      });
+    }).catch(() => {
+      // fallback: prompt
+      prompt('Команда для AI-штаба:', cmd);
+    });
+  }
+
+  // Scroll-spy: highlight active nav link
+  const sections = document.querySelectorAll('.section-card, .extra-docs');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => { if (s.id) observer.observe(s); });
+</script>
+
+</body>
+</html>
