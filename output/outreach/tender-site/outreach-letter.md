@@ -48,20 +48,21 @@ Telegram: {TELEGRAM} / {EMAIL}
 
 - [ ] Заполнить {TELEGRAM} и {EMAIL} Жени
 - [ ] Выложить бриф (marketing-brief.md) в доступное место и вставить ссылку вместо {ССЫЛКА_НА_БРИФ}
-- [ ] Email — отправлять тем у кого есть email-контакт (Komarovaeee, Flash Family, Digital Vitamin, MIKHAILOV, ITECH, Liqium)
-- [ ] Telegram — тем у кого есть TG-контакт (@komarovaeee, @webvalleysbot, @meloddy_design_tilda, @thesolovey, @mikhailovstudio)
+- [ ] Email — отправлять тем у кого есть email-контакт (MIKHAILOV, Komarovaeee, One Page Master, Flash Family, Digital Vitamin)
+- [ ] Telegram — тем у кого есть TG-контакт (@mikhailovstudio, @komarovaeee, @webvalleysbot, @meloddy_design_tilda, @thesolovey)
 - [ ] Deruga Project — через форму на сайте (использовать Email-версию)
+- [ ] DamonWhite (Kwork) — через личные сообщения Kwork, спросить ивент-кейсы
 - [ ] Ответы фиксировать в: output/tracking/tender-site.md (создать если нет)
 
 ## Порядок отправки (по приоритету)
 
-1. Komarovaeee — TG + email (оба канала, высший приоритет)
-2. Молния Flash Family — email
-3. Deruga Project — форма на сайте
-4. WebValley Studio — TG
-5. Meloddy Design — TG
-6. Дмитрий Соловьёв — TG
-7. MIKHAILOV studio — TG + email
-8. ITECH.group — форма
-9. Liqium — форма
-10. Digital Vitamin — email
+1. **MIKHAILOV studio** — TG @mikhailovstudio + email (единственный с кейсом спортфестиваля)
+2. **Komarovaeee** — TG @komarovaeee + email (Tilda Expert, 50+ ивент-кейсов)
+3. **One Page Master** — email info@one-page-site.ru (кейс фестиваль «Степная история»)
+4. **Молния Flash Family** — email hello@flashfamily.ru (ТОП-3 Рунета по Tilda)
+5. **Deruga Project** — форма на сайте (HoReCa + event на Tilda)
+6. **WebValley Studio** — TG @webvalleysbot
+7. **Meloddy Design** — TG @meloddy_design_tilda
+8. **Дмитрий Соловьёв** — TG @thesolovey
+9. **Digital Vitamin** — email hello@digitalvitamin.ru
+10. **DamonWhite** — Kwork DM (резерв, если нужен бюджетный вариант от 20к)

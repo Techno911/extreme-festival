@@ -16,6 +16,7 @@ export interface DashboardState {
   };
   checkpoints: Record<string, boolean>; // "sectionId:checkpointIndex" → true/false
   changelog: ChangelogEntry[];
+  sections?: Record<string, { artifacts: { path: string; size: number; modified: string }[]; count: number }>;
 }
 
 export interface ChangelogEntry {

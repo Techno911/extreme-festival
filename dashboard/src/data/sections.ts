@@ -43,7 +43,7 @@ export const sections: Section[] = [
       { title: 'Определить позиционирование', done: true },
       { title: 'AJTBD-сегментация (5 сегментов)', done: true },
       { title: 'Выбрать каналы продвижения', done: true },
-      { title: 'Согласовать с Женей', done: true },
+      { title: 'Согласовать с Женей', done: false },
     ],
   },
   {

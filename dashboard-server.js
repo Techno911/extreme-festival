@@ -108,6 +108,88 @@ function serveFile(res, filePath) {
   }
 }
 
+// ── Dynamic sections: scan filesystem for real status ──
+function scanSections() {
+  const outputDir = path.join(__dirname, 'output');
+  const tacticDir = path.join(outputDir, 'tactic');
+  const outreachDir = path.join(outputDir, 'outreach');
+  const researchDir = path.join(outputDir, 'research');
+
+  // Map section id → artifacts (files that prove work was done)
+  const artifactMap = {
+    strategy: { files: ['а-стратегия.md'], dir: tacticDir },
+    market: { files: ['б-анализ-рынка.md', 'конкурентная-стратегия.md'], dir: tacticDir, research: ['competitive-analysis-frameworks-2026.md', 'competitor-monitor-2026-04-03.md'] },
+    budget: { files: ['в-рекламный-бюджет.md'], dir: tacticDir },
+    sales: { files: ['г-план-продаж-билетов.md'], dir: tacticDir },
+    site: { files: ['д-сайт-тендерный-пакет.md'], dir: tacticDir, outreach: ['tender-site/marketing-brief.md', 'tender-site/moodboard.md', 'tender-site/outreach-letter.md', 'tender-site/block4-audience.md'] },
+    trailer: { files: ['е-трейлер-тендерный-пакет.md'], dir: tacticDir },
+    ambassadors: { files: ['ж-амбассадоры.md'], dir: tacticDir, outreach: ['ambassadors/'] },
+    partners: { files: ['з-инфопартнёры.md'], dir: tacticDir, outreach: ['partner-rockfm-test.md'] },
+    bloggers: { files: ['и-блогеры.md'], dir: tacticDir },
+    content: { files: ['к-контент-стратегия.md'], dir: tacticDir },
+    merch: { files: ['л-мерч.md'], dir: tacticDir, research: ['merch-matrix-test.md'] },
+    contractors: { files: ['м-подрядчики.md'], dir: tacticDir },
+    calendar: { files: ['н-календарный-план.md'], dir: tacticDir },
+  };
+
+  const result = {};
+  for (const [sectionId, mapping] of Object.entries(artifactMap)) {
+    const artifacts = [];
+    // Check tactic files
+    for (const f of mapping.files) {
+      const fp = path.join(mapping.dir, f);
+      if (fs.existsSync(fp)) {
+        const stat = fs.statSync(fp);
+        artifacts.push({ path: `output/tactic/${f}`, size: stat.size, modified: stat.mtime.toISOString() });
+      }
+    }
+    // Check outreach files
+    if (mapping.outreach) {
+      for (const f of mapping.outreach) {
+        const fp = path.join(outreachDir, f);
+        if (f.endsWith('/')) {
+          // Directory — count files inside
+          if (fs.existsSync(fp)) {
+            const files = fs.readdirSync(fp).filter(x => x.endsWith('.md'));
+            files.forEach(x => {
+              artifacts.push({ path: `output/outreach/${f}${x}`, size: 0, modified: '' });
+            });
+          }
+        } else if (fs.existsSync(fp)) {
+          artifacts.push({ path: `output/outreach/${f}`, size: fs.statSync(fp).size, modified: fs.statSync(fp).mtime.toISOString() });
+        }
+      }
+    }
+    // Check research files
+    if (mapping.research) {
+      for (const f of mapping.research) {
+        const fp = path.join(researchDir, f);
+        if (fs.existsSync(fp)) {
+          artifacts.push({ path: `output/research/${f}`, size: fs.statSync(fp).size, modified: fs.statSync(fp).mtime.toISOString() });
+        }
+      }
+    }
+    result[sectionId] = { artifacts, count: artifacts.length };
+  }
+  return result;
+}
+
+// ── Read markdown file and return as simple HTML ──
+function readFileAsHtml(filePath) {
+  const absPath = path.join(__dirname, filePath);
+  if (!absPath.startsWith(__dirname) || !fs.existsSync(absPath)) return null;
+  const content = fs.readFileSync(absPath, 'utf8');
+  // Simple markdown → HTML: headers, bold, lists
+  return content
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+    .replace(/\n/g, '<br>');
+}
+
 const server = http.createServer((req, res) => {
   // CORS headers for dev
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -121,11 +203,34 @@ const server = http.createServer((req, res) => {
 
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
-  // API: read state
+  // API: read state (includes live KPIs + section artifacts)
   if (url.pathname === '/api/state' && req.method === 'GET') {
     const state = readState();
+    state.sections = scanSections();
     res.writeHead(200, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify(state));
+  }
+
+  // API: get section artifacts
+  if (url.pathname === '/api/sections' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify(scanSections()));
+  }
+
+  // API: read file content (for viewing artifacts)
+  if (url.pathname === '/api/file' && req.method === 'GET') {
+    const filePath = url.searchParams.get('path');
+    if (!filePath || filePath.includes('..')) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Invalid path' }));
+    }
+    const html = readFileAsHtml(filePath);
+    if (!html) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'File not found' }));
+    }
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    return res.end(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${filePath}</title><style>body{font-family:Inter,sans-serif;max-width:800px;margin:40px auto;padding:0 20px;background:#111;color:#eee;line-height:1.6}h1,h2,h3{color:#F97316}li{margin:4px 0}code{background:#222;padding:2px 6px;border-radius:4px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:8px;text-align:left}</style></head><body>${html}</body></html>`);
   }
 
   // API: write state

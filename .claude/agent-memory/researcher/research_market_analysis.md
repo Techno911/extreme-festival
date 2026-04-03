@@ -22,20 +22,25 @@ type: project
 - Билеты: MTC Live, Т-Банк Афиша, Kassir.ru, Ticketland.ru
 - Посещаемость 2025: ~700 чел. (из контекста проекта; официальных данных нет)
 
-**Китаев / Grima (v6, апрель 2026):**
-- 11 июля 2026, «Grima» — конкретное событие в открытых источниках НЕ НАЙДЕНО (проверено апрель 2026)
-- КЛЮЧЕВОЙ ФАКТ: Grima = не площадка! Это российская группа (атмосферный блэк-метал, Новосибирск, братья Vilhelm/Morbius, с 2014, лейбл Napalm Records)
-- Новый альбом: Nightside (28.02.2025). Тур Nightside по России прошёл в 2025 (с Morokh)
-- Ближайшие анонсированные даты Grima: UK (Bristol, Brighton) — не Москва июль 2026
-- Промоутер «Китаев» в открытых источниках не найден как публичная фигура
-- Жанровая конкуренция с нами: НИЗКАЯ — atmospheric black metal vs. thrash/death metal — разные аудитории
-- УТОЧНИТЬ у Жени: что за событие «Китаев + Grima 11 июля», кто организатор
+**«Китаев» / Grima / Madstream Fest (v7, 03.04.2026 — ИДЕНТИФИЦИРОВАН):**
+- «Китаев» = НЕ существует как отдельный промоутер в публичных источниках. Событие 11 июля = **Madstream Fest**
+- Madstream Fest 2026: 11 июля, пространство «Графит» Москва, 16:00, 2 сцены
+- Лайнап (11 групп): Grima, My Autumn, Tardigrade Inferno, Ease of Disgust, Мещера, Ultar, Invertor, Elderwind, Scald, Tsygun, Minuala
+- Цена: 3 500 ₽ (concertinfo.ru)
+- Организатор: Madstream Booking Agency (madstreambooking.com)
+- Жанры: atmospheric black, epic doom, technical death, avant-garde — жанровая конкуренция с нами НИЗКАЯ
+- Grima = группа (Новосибирск, атм. блэк-метал), а не площадка
+- Источники: madstreambooking.com/madstreamfest/, concertinfo.ru/genre/13
 
-**Эстрим Фест (наш фест) — лайнап подтверждён через ConcertInfo:**
-- Дата: 11 июля 2026, PRAVDA (обе сцены: клуб + Pravda Summer)
-- Подтверждённые участники: MASTER, STILLBIRTH (Германия — иностранный хедлайнер), MJOD, MASS MADNESS, MAUSOLEUM, GENERAL FIBROSIS (список неполный, будет обновлён)
+**Эстрим Фест (наш фест) — лайнап и продажи на 03.04.2026:**
+- Дата: 11 июля 2026, PRAVDA (обе сцены: клуб + Pravda Summer), 14:00–23:00
+- Подтверждённые участники: MASTER, STILLBIRTH (Германия — иностранный хедлайнер), MJOD, MASS MADNESS, MAUSOLEUM, GENERAL FIBROSIS (список пополняется)
 - Жанры: Death Metal, Thrash Metal, Folk Metal
 - Источник: concertinfo.ru/gig/37153/
+- **Продажи билетов (TicketsCloud 03.04.2026):** ~83 продано из 1380 (6%)
+- Категории: Танцпол 2 900₽ (1309 осталось), VIP Light 3 500₽ (17), VIP ограниченный 3 800₽ (9), VIP 4 200₽ (16), Super VIP 5 000₽ (26)
+- Контакт организатора: extremefestival@yandex.ru, +79166300832
+- MJOD есть и в лайнапе Скрежета — проверить не конфликт ли это
 
 **Motherland Festival 2026 (подтверждён на 11 июля 2026 — тот же день):**
 - Даты: 11–12 июля 2026, ГПЗ-1, Шарикоподшипниковская 13/33, м. Дубровка
@@ -49,6 +54,9 @@ type: project
 **Конкурентный фон лето 2026 Москва:**
 - Moscow Dark Fest: 12 июня, Pravda, пост-панк/гот/EBM — другой жанр, 3 000–15 000 ₽
 - Abyss Fest: 14 февраля 2026 (уже прошёл), клуб Урбан, Abyssphere
+- **VIO-LENCE (США) — 16 августа 2026, Pravda Club, 3 000 ₽** — трэш-метал Bay Area 1985, пересечение с нашей ЦА высокое
+- **Madstream Fest — 11 июля 2026, Графит, 3 500 ₽** — 11 групп (Grima, Ultar, Invertor и др.), атм. блэк/дум — КОНКУРЕНТ ТОТ ЖЕ ДЕНЬ, жанр другой
+- **Скрежет металла лайнап 2026 (частично раскрыт):** ILLIDIANCE, ABYSSPHERE, FROMSKYTOABYSS, COLD BLOODED MURDER, MJOD, SEPTORY, КУВАЛДА и ещё ~18 групп из 38 объявлены через агрегаторы
 
 **Площадка Pravda (наша и конкурента):**
 - Вместимость концерт: до 800 чел. внутри; Pravda Summer (летняя) — 300 м², сцена 6×4 м

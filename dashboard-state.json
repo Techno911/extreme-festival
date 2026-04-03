@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-03T17:40:51.497Z",
-  "lastUpdatedBy": "head-strategy",
+  "lastUpdated": "2026-04-03T17:50:54.148Z",
+  "lastUpdatedBy": "user",
   "kpis": {
     "tickets": 16,
     "budgetSpent": 0,
@@ -15,7 +15,10 @@
     "budget:0": true,
     "budget:2": true,
     "budget:1": true,
-    "budget:7": true
+    "budget:7": true,
+    "strategy:1": true,
+    "site:0": true,
+    "trailer:0": true
   },
   "changelog": [
     {
@@ -143,6 +146,24 @@
       "agent": "head-strategy",
       "action": "completed",
       "summary": "CMP-78: Тендерный пакет сайта: AJTBD Block 4 + маркетинговый бриф → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:45:45.406Z",
+      "agent": "head-growth",
+      "action": "completed",
+      "summary": "CMP-87: Верификация 30 подрядчиков Tilda → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:47:44.420Z",
+      "agent": "researcher",
+      "action": "completed",
+      "summary": "CMP-88: Верификация подрядчиков группы Г, Д и retry под-вопросом → done"
+    },
+    {
+      "timestamp": "2026-04-03T17:48:31.246Z",
+      "agent": "head-growth",
+      "action": "completed",
+      "summary": "CMP-80: Тендер сайта: проверка подрядчиков + письмо первого контакта → done"
     }
   ]
 }

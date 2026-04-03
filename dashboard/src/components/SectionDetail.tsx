@@ -165,6 +165,41 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
         </div>
       </div>
 
+      {/* Artifacts — files produced by agents */}
+      {dashState.state?.sections?.[sectionId]?.artifacts?.length > 0 && (
+        <div className="bg-surface-2 border border-border rounded-2xl p-5">
+          <h2 className="text-base font-semibold text-text mb-4">
+            Артефакты ({dashState.state.sections[sectionId].artifacts.length})
+          </h2>
+          <div className="space-y-2">
+            {dashState.state.sections[sectionId].artifacts.map((a: { path: string; modified: string }, i: number) => {
+              const name = a.path.split('/').pop() || a.path;
+              const viewUrl = `/api/file?path=${encodeURIComponent(a.path)}`;
+              return (
+                <a
+                  key={i}
+                  href={viewUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-xl border border-border bg-surface-3 hover:border-brand/40 transition-colors"
+                >
+                  <ExternalLink size={14} className="text-brand shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm text-text truncate">{name}</div>
+                    <div className="text-xs text-text-dim truncate">{a.path}</div>
+                  </div>
+                  {a.modified && (
+                    <div className="text-xs text-text-dim shrink-0">
+                      {new Date(a.modified).toLocaleDateString('ru-RU')}
+                    </div>
+                  )}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Budget breakdown for budget section */}
       {sectionId === 'budget' && (
         <div className="bg-surface-2 border border-border rounded-2xl p-5">

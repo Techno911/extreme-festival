@@ -7,24 +7,24 @@
 
 ## ИТОГО
 
-**К рассылке: 10 контактов** | **Закрытых / мёртвых: 14+**
+**К рассылке: 9 контактов (агентства + фрилансер резерв)** | **Вне бюджета: 4** | **Закрытых / мёртвых: 14+**
 
-> v4 (2026-04-03): добавлена колонка «Портфолио музыка/события». Добавлены ITECH.group (#1 Рунета) и Liqium (#2 Рунета) в активный список.
+> v5 (2026-04-03): исправлена сводная таблица — ITECH.group и Liqium убраны из рассылки (бюджет от 500к–700к, нерелевантно). Добавлена One Page Master с кейсом фестиваля. MIKHAILOV studio — подтверждён кейс спортфеста ULTRA100 (Workspace Award).
 
 ### Сводная таблица для рассылки
 
-| № | Название | Сайт | Контакт | Есть портфолио музыка/события | Статус |
-|---|---|---|---|---|---|
-| 1 | **Komarovaeee** | komarovaeee.com | TG: @komarovaeee / hello@komarovaeee.com | Да — ивент, HoReCa, события (50+ кейсов, подтверждено) | Актив |
-| 2 | **Молния Flash Family** | flashfamily.ru | hello@flashfamily.ru / 8-800-600-72-60 | Да — отдельная страница «сайты мероприятий», ТОП-5 Рунета | Актив |
-| 3 | **Deruga Project** | deruga-project.ru | Форма на сайте / TG + VK | Да — специализация HoReCa + event на Tilda | Актив |
-| 4 | **WebValley Studio** | web-valley.ru | TG: @webvalleysbot / WA: +7 977 530-45-81 | Под вопросом — уточнять при звонке | Актив |
-| 5 | **Meloddy Design** | meloddydesign.ru | TG: @meloddy_design_tilda | Да — позиционирование в музыкальных проектах | Актив |
-| 6 | **Дмитрий Соловьёв** | thesolovey.ru | TG: @thesolovey / +7 926 571-11-35 | Под вопросом — уточнять при звонке | Актив |
-| 7 | **MIKHAILOV studio** | mikhailov.studio | TG: @mikhailovstudio / info@mikhailov.studio | Под вопросом — ТОП-3 no-code РФ, ивент-кейсов нет явно | Актив |
-| 8 | **Digital Vitamin** | digitalvitamin.ru | hello@digitalvitamin.ru | Под вопросом — TLS-ошибка на сайте, писать email | Актив |
-| 9 | **ITECH.group** | itech.group | Через форму на сайте | Под вопросом — ТОП-1 Рунета (170 заказчиков), ивент-кейсы уточнять | Актив |
-| 10 | **Liqium** | liqium.ru | Через форму на сайте | Под вопросом — ТОП-2 Рунета (124 заказчика), специализация уточнить | Актив |
+| № | Название | Сайт | Контакт | Есть портфолио музыка/события | Цена | Приоритет |
+|---|---|---|---|---|---|---|
+| 1 | **MIKHAILOV studio** | mikhailov.studio | TG: @mikhailovstudio / info@mikhailov.studio | ✅ Спортфест ULTRA100, Workspace Award | 150–250к | ⭐ Первый |
+| 2 | **Komarovaeee** | komarovaeee.com | TG: @komarovaeee / hello@komarovaeee.com | ✅ Ивент + HoReCa (50+ кейсов) | от 140к | ⭐ Второй |
+| 3 | **One Page Master** | one-page-site.ru | info@one-page-site.ru | ✅ Фестиваль «Степная история» | от 150к | ⭐ Третий |
+| 4 | **Молния Flash Family** | flashfamily.ru | hello@flashfamily.ru / 8-800-600-72-60 | Страница «сайты мероприятий», ТОП-5 Рунета | 80–200к | Отправить |
+| 5 | **Deruga Project** | deruga-project.ru | Форма на сайте / TG + VK | ✅ HoReCa + event на Tilda | Уточнить | Отправить |
+| 6 | **WebValley Studio** | web-valley.ru | TG: @webvalleysbot / WA: +7 977 530-45-81 | Уточнить при звонке | 80–120к | Отправить |
+| 7 | **Meloddy Design** | meloddydesign.ru | TG: @meloddy_design_tilda | Музыкальные проекты | Средний рынок | Отправить |
+| 8 | **Дмитрий Соловьёв** | thesolovey.ru | TG: @thesolovey / +7 926 571-11-35 | Уточнить при звонке | Фриланс | Отправить |
+| 9 | **Digital Vitamin** | digitalvitamin.ru | hello@digitalvitamin.ru (TLS нестабилен) | Неизвестно | н/д | Email напрямую |
+| — | **DamonWhite (Kwork)** | kwork.ru/user/damonwhite | Kwork DM | Уточнить | от 20к | Резерв фриланс |
 
 ---
 
