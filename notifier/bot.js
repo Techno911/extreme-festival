@@ -380,9 +380,11 @@ async function handleAgentTask(chatId, agentType, taskText) {
       } catch {}
     }
 
-    // Краткий результат
+    // Результат — показываем больше для actionable артефактов (питчи, письма)
     const cleanText = resultText.replace(/<[^>]*>/g, '').trim();
-    const shortResult = cleanText.length > 800 ? cleanText.substring(0, 800) + '...' : cleanText;
+    const isActionable = cleanText.length < 2000 && (cleanText.includes('copy-paste') || cleanText.includes('Скопируй') || cleanText.includes('Женя копирует') || cleanText.includes('готов к отправке') || cleanText.includes('ТЕСТ ГОТОВНОСТИ'));
+    const maxLen = isActionable ? 2000 : 800;
+    const shortResult = cleanText.length > maxLen ? cleanText.substring(0, maxLen) + '...' : cleanText;
 
     // Обновляем дашборд
     dashboard.updateDashboard({
