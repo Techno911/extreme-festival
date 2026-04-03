@@ -118,24 +118,61 @@ function getTicketsSold() {
 }
 
 /**
- * Строит список задач на сегодня из календарного плана
+ * Строит actionable задачи на сегодня — с файлами для copy-paste
  */
 function getTodayTasks() {
-  // Упрощённая версия — просто напоминаем про активные дедлайны
-  const upcoming = getUpcomingDeadlines();
-  if (upcoming.length > 0) return upcoming;
+  const outreachDir = path.join(OUTPUT_DIR, 'outreach');
+  const draftsDir = path.join(OUTPUT_DIR, 'drafts');
+  const tasks = [];
 
-  // Стандартные задачи по фазам
-  const daysLeft = getDaysLeft();
-  if (daysLeft > 100) {
-    return ['Запустить тендер на сайт (рассылка 30 брифов)', 'Собрать контакты амбассадоров'];
-  } else if (daysLeft > 60) {
-    return ['Контроль подрядчика сайта', 'Развоз флаеров по точкам'];
-  } else if (daysLeft > 30) {
-    return ['Посевы в ТГ-каналах', 'Публикация кружков амбассадоров'];
-  } else {
-    return ['Финальные посты', 'Обратный отсчёт', 'Логистика площадки'];
+  // 1. Проверяем готовые питчи которые ещё не отправлены
+  // Тендер сайта: письмо готово?
+  const siteLetter = path.join(outreachDir, 'tender-site', 'outreach-letter.md');
+  if (fs.existsSync(siteLetter)) {
+    tasks.push('📨 Тендер сайта: скопируй письмо из output/outreach/tender-site/outreach-letter.md → отправь 5 подрядчикам из списка');
   }
+
+  // Rock FM питч
+  const rockfm = path.join(outreachDir, 'partners', 'rockfm-pitch-final.md');
+  if (fs.existsSync(rockfm)) {
+    tasks.push('📨 Rock FM: скопируй питч из output/outreach/partners/rockfm-pitch-final.md → отправь редактору');
+  }
+
+  // Амбассадоры: непрочитанные питчи
+  const ambDir = path.join(outreachDir, 'ambassadors');
+  if (fs.existsSync(ambDir)) {
+    const pitchFiles = fs.readdirSync(ambDir).filter(f => f.match(/^\d+_/) && f.endsWith('.md'));
+    if (pitchFiles.length > 0) {
+      tasks.push('📨 Амбассадоры: ' + pitchFiles.length + ' питчей готовы → папка output/outreach/ambassadors/ → отправь по 3 в день');
+    }
+  }
+
+  // 2. Черновики постов на ближайшие дни
+  const now = new Date();
+  const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  if (fs.existsSync(draftsDir)) {
+    const drafts = fs.readdirSync(draftsDir).filter(f => f.match(/^2026-\d{2}-\d{2}/) && f.endsWith('.md'));
+    const upcoming = drafts.filter(f => {
+      const dateStr = f.substring(0, 10);
+      const d = new Date(dateStr);
+      return d >= now && d <= weekFromNow;
+    });
+    if (upcoming.length > 0) {
+      tasks.push('📝 Посты на неделю: ' + upcoming.length + ' черновиков → output/drafts/ → проверь и опубликуй');
+    }
+  }
+
+  // 3. Дедлайны
+  const deadlines = getUpcomingDeadlines();
+  if (deadlines.length > 0) {
+    tasks.push('⏰ ' + deadlines[0]);
+  }
+
+  if (tasks.length === 0) {
+    tasks.push('Нет срочных задач. Проверь дашборд: localhost:3200');
+  }
+
+  return tasks;
 }
 
 // ─── Main ──────────────────────────────────────────────────────────────────────
