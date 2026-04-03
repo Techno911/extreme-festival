@@ -111,31 +111,40 @@ export function Overview({ onNavigate, dashState }: OverviewProps) {
         </p>
       </div>
 
-      {/* Quick stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-surface-2 border border-border rounded-2xl p-4">
-          <div className="flex items-center gap-2 text-success mb-1">
-            <CheckCircle2 size={16} />
-            <span className="text-sm font-medium">Готово</span>
-          </div>
-          <div className="text-3xl font-bold text-text">{doneCount}</div>
-          <div className="text-xs text-text-dim">из {sections.length} разделов</div>
+      {/* TODAY — what Женя should do RIGHT NOW */}
+      <div className="bg-surface-2 border-2 border-brand/40 rounded-2xl p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Zap size={18} className="text-brand" />
+          <h2 className="text-base font-semibold text-text">Сегодня</h2>
         </div>
-        <div className="bg-surface-2 border border-border rounded-2xl p-4">
-          <div className="flex items-center gap-2 text-warning mb-1">
-            <Clock size={16} />
-            <span className="text-sm font-medium">В работе</span>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3 p-3 rounded-xl bg-brand/5 border border-brand/20">
+            <span className="text-brand mt-0.5">1.</span>
+            <div>
+              <div className="text-sm text-text">Отправь питч Rock FM</div>
+              <div className="text-xs text-text-dim mt-1">
+                Скопируй из <a href="/api/file?path=output/outreach/partners/rockfm-pitch-final.md" target="_blank" className="text-brand hover:underline">rockfm-pitch-final.md</a> → вставь в ТГ редактору
+              </div>
+            </div>
           </div>
-          <div className="text-3xl font-bold text-text">{inProgressCount}</div>
-          <div className="text-xs text-text-dim">разделов</div>
-        </div>
-        <div className="bg-surface-2 border border-border rounded-2xl p-4">
-          <div className="flex items-center gap-2 text-text-dim mb-1">
-            <Circle size={16} />
-            <span className="text-sm font-medium">Не начаты</span>
+          <div className="flex items-start gap-3 p-3 rounded-xl bg-surface-3 border border-border">
+            <span className="text-text-dim mt-0.5">2.</span>
+            <div>
+              <div className="text-sm text-text">Отправь 3 питча амбассадорам</div>
+              <div className="text-xs text-text-dim mt-1">
+                Файлы в <a href="/api/file?path=output/outreach/ambassadors/01_leos.md" target="_blank" className="text-brand hover:underline">outreach/ambassadors/</a> — Леос, Титаев, Master
+              </div>
+            </div>
           </div>
-          <div className="text-3xl font-bold text-text">{notStartedCount}</div>
-          <div className="text-xs text-text-dim">разделов</div>
+          <div className="flex items-start gap-3 p-3 rounded-xl bg-surface-3 border border-border">
+            <span className="text-text-dim mt-0.5">3.</span>
+            <div>
+              <div className="text-sm text-text">Отправь бриф 5 подрядчикам сайта</div>
+              <div className="text-xs text-text-dim mt-1">
+                Письмо: <a href="/api/file?path=output/outreach/tender-site/outreach-letter.md" target="_blank" className="text-brand hover:underline">outreach-letter.md</a> + бриф: <a href="/api/file?path=output/outreach/tender-site/marketing-brief.md" target="_blank" className="text-brand hover:underline">marketing-brief.md</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
