@@ -413,6 +413,26 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // API: contacts from tracking files (mini-CRM)
+  if (url.pathname === '/api/contacts' && req.method === 'GET') {
+    const type = url.searchParams.get('type') || 'ambassadors';
+    const filePath = path.join(__dirname, 'output', 'tracking', `${type}.md`);
+    const contacts = [];
+    if (fs.existsSync(filePath)) {
+      const lines = fs.readFileSync(filePath, 'utf8').split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('|') || line.includes('---') || line.includes('Имя') || line.includes('Статус')) continue;
+        const cells = line.split('|').map(c => c.trim()).filter(Boolean);
+        if (cells.length >= 3) {
+          const status = line.includes('🟢') ? 'agreed' : line.includes('🟡') ? 'written' : line.includes('🟠') ? 'replied' : line.includes('✅') ? 'done' : 'new';
+          contacts.push({ name: cells[0], role: cells[1] || '', status, raw: line });
+        }
+      }
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify(contacts));
+  }
+
   // API: append to changelog (convenience endpoint for bot)
   if (url.pathname === '/api/changelog' && req.method === 'POST') {
     let body = '';

@@ -122,12 +122,17 @@ export function Timeline({ dashState: _dashState }: TimelineProps) {
 
                   <div className="space-y-2">
                     {week.tasks.map((task, ti) => (
-                      <div key={ti} className="flex items-start gap-2">
-                        {task.done ? (
-                          <CheckCircle2 size={16} className="text-success mt-0.5 shrink-0" />
-                        ) : (
-                          <Circle size={16} className="text-text-dim mt-0.5 shrink-0" />
-                        )}
+                      <div key={ti} className="flex items-start gap-2 group">
+                        <button
+                          className="mt-0.5 shrink-0 cursor-pointer hover:scale-110 transition-transform"
+                          title={task.done ? 'Выполнено' : 'Отметить выполненным'}
+                        >
+                          {task.done ? (
+                            <CheckCircle2 size={16} className="text-success" />
+                          ) : (
+                            <Circle size={16} className="text-text-dim group-hover:text-brand" />
+                          )}
+                        </button>
                         <span className={`text-sm flex-1 ${task.done ? 'text-text-dim line-through' : 'text-text'}`}>
                           {task.title}
                         </span>

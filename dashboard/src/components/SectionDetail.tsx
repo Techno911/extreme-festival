@@ -1,7 +1,47 @@
-import { CheckCircle2, Circle, ExternalLink, AlertTriangle, ArrowLeft, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { CheckCircle2, Circle, ExternalLink, AlertTriangle, ArrowLeft, Clock, Users } from 'lucide-react';
 import { sections } from '../data/sections';
 import { budgetLines, totalBudget, totalSpent } from '../data/budget';
 import type { useDashboardState } from '../hooks/useDashboardState';
+
+interface Contact { name: string; role: string; status: string; }
+
+function ContactList({ type }: { type: string }) {
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  useEffect(() => {
+    fetch(`/api/contacts?type=${type}`).then(r => r.json()).then(setContacts).catch(() => {});
+  }, [type]);
+  if (contacts.length === 0) return null;
+  const statusColors: Record<string, string> = {
+    done: 'bg-success/20 text-success', agreed: 'bg-success/20 text-success',
+    replied: 'bg-warning/20 text-warning', written: 'bg-brand/20 text-brand',
+    new: 'bg-surface-3 text-text-dim',
+  };
+  const statusLabels: Record<string, string> = {
+    done: 'Готово', agreed: 'Согласие', replied: 'Ответил', written: 'Написали', new: 'Новый',
+  };
+  return (
+    <div className="bg-surface-2 border border-border rounded-2xl p-5">
+      <div className="flex items-center gap-2 mb-3">
+        <Users size={16} className="text-brand" />
+        <h2 className="text-base font-semibold text-text">Контакты ({contacts.length})</h2>
+      </div>
+      <div className="space-y-2">
+        {contacts.map((c, i) => (
+          <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-surface-3">
+            <div>
+              <div className="text-sm text-text">{c.name}</div>
+              {c.role && <div className="text-xs text-text-dim">{c.role}</div>}
+            </div>
+            <span className={`px-2 py-0.5 rounded-full text-xs ${statusColors[c.status] || statusColors.new}`}>
+              {statusLabels[c.status] || c.status}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 interface SectionDetailProps {
   sectionId: string;
@@ -269,6 +309,11 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
           </a>
         </div>
       )}
+
+      {/* Mini-CRM for contact-heavy sections */}
+      {sectionId === 'ambassadors' && <ContactList type="ambassadors" />}
+      {sectionId === 'partners' && <ContactList type="partners" />}
+      {sectionId === 'bloggers' && <ContactList type="bloggers" />}
 
       {/* Budget breakdown for budget section */}
       {sectionId === 'budget' && (
