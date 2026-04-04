@@ -389,6 +389,30 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // API: update single KPI (inline edit from dashboard)
+  if (url.pathname === '/api/kpi' && req.method === 'POST') {
+    let body = '';
+    req.on('data', c => body += c);
+    req.on('end', () => {
+      try {
+        const { key, value } = JSON.parse(body);
+        if (key === 'tickets') {
+          const salesPath = path.join(__dirname, 'output', 'tracking', 'sales.md');
+          let content = fs.existsSync(salesPath) ? fs.readFileSync(salesPath, 'utf8') : '# Продажи\n\n';
+          content = content.replace(/Продано:\s*\d+/, `Продано: ${value}`);
+          if (!content.includes('Продано:')) content += `\nПродано: ${value}\n`;
+          fs.writeFileSync(salesPath, content, 'utf8');
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true }));
+      } catch (e) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: e.message }));
+      }
+    });
+    return;
+  }
+
   // API: append to changelog (convenience endpoint for bot)
   if (url.pathname === '/api/changelog' && req.method === 'POST') {
     let body = '';

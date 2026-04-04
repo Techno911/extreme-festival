@@ -188,6 +188,13 @@ export function SectionDetail({ sectionId, onBack, dashState }: SectionDetailPro
                     <div className="text-sm text-text truncate">{name}</div>
                     <div className="text-xs text-text-dim truncate">{a.path}</div>
                   </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigator.clipboard.writeText(a.path); }}
+                    className="text-xs text-text-dim hover:text-brand px-2 py-1 rounded hover:bg-surface-2 shrink-0 transition-colors"
+                    title="Скопировать путь"
+                  >
+                    📋
+                  </button>
                   {a.modified && (
                     <div className="text-xs text-text-dim shrink-0">
                       {new Date(a.modified).toLocaleDateString('ru-RU')}

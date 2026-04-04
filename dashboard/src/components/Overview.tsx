@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ExternalLink, CheckCircle2, Circle, AlertTriangle, Clock, Zap, History } from 'lucide-react';
 import { sections, type Section, type SectionStatus } from '../data/sections';
 import { milestones, phases } from '../data/timeline';
@@ -30,10 +31,27 @@ function SectionCard({ section, onClick, dashState }: {
   const liveProgress = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
   const liveStatus: SectionStatus = liveProgress === 100 ? 'done' : liveProgress > 0 ? 'in-progress' : section.status;
 
+  // Check if any checkpoint is overdue
+  const hasOverdue = section.checkpoints.some((cp, i) => {
+    if (isCheckpointDone(section.id, i, cp.done)) return false;
+    if (!cp.deadline) return false;
+    const months: Record<string, number> = { 'янв':0,'фев':1,'мар':2,'апр':3,'мая':4,'май':4,'июн':5,'июл':6,'авг':7,'сен':8,'окт':9,'ноя':10,'дек':11 };
+    const parts = cp.deadline.toLowerCase().trim().split(/\s+/);
+    if (parts.length < 2) return false;
+    const day = parseInt(parts[0]);
+    const month = months[parts[1]?.substring(0,3)];
+    if (isNaN(day) || month === undefined) return false;
+    return new Date(2026, month, day) < new Date();
+  });
+
+  const borderClass = hasOverdue
+    ? 'bg-surface-2 border-2 border-danger/60 rounded-2xl p-4 text-left hover:border-danger transition-all w-full group'
+    : 'bg-surface-2 border border-border rounded-2xl p-4 text-left hover:border-brand/50 transition-all w-full group';
+
   return (
     <button
       onClick={onClick}
-      className="bg-surface-2 border border-border rounded-2xl p-4 text-left hover:border-brand/50 transition-all w-full group"
+      className={borderClass}
     >
       <div className="flex items-start justify-between mb-2">
         <div>
@@ -78,6 +96,58 @@ interface OverviewProps {
   dashState: ReturnType<typeof useDashboardState>;
 }
 
+function SectionGrid({ sections: sects, onNavigate, dashState }: { sections: Section[]; onNavigate: (id: string) => void; dashState: ReturnType<typeof useDashboardState> }) {
+  const [filter, setFilter] = useState<'all' | 'active' | 'overdue'>('all');
+  const { isCheckpointDone } = dashState;
+
+  const filtered = sects.filter((s) => {
+    if (filter === 'all') return true;
+    let doneCps = 0;
+    let hasOverdue = false;
+    s.checkpoints.forEach((cp, i) => {
+      if (isCheckpointDone(s.id, i, cp.done)) doneCps++;
+      else if (cp.deadline) {
+        const months: Record<string, number> = { 'янв':0,'фев':1,'мар':2,'апр':3,'мая':4,'май':4,'июн':5,'июл':6 };
+        const parts = (cp.deadline || '').toLowerCase().trim().split(/\s+/);
+        const day = parseInt(parts[0]);
+        const month = months[parts[1]?.substring(0,3)];
+        if (!isNaN(day) && month !== undefined && new Date(2026, month, day) < new Date()) hasOverdue = true;
+      }
+    });
+    const pct = s.checkpoints.length > 0 ? doneCps / s.checkpoints.length : 0;
+    if (filter === 'active') return pct > 0 && pct < 1;
+    if (filter === 'overdue') return hasOverdue;
+    return true;
+  });
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-lg font-semibold text-text">Разделы тактики</h2>
+        <div className="flex gap-1">
+          {(['all', 'active', 'overdue'] as const).map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-3 py-1 rounded-lg text-xs transition-colors ${filter === f ? 'bg-brand text-white' : 'bg-surface-3 text-text-dim hover:text-text'}`}
+            >
+              {f === 'all' ? 'Все' : f === 'active' ? 'В работе' : 'Просрочен'}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {filtered.map((section) => (
+          <SectionCard key={section.id} section={section} onClick={() => onNavigate(section.id)} dashState={dashState} />
+        ))}
+        {filtered.length === 0 && (
+          <div className="col-span-2 text-center text-text-dim py-8">Нет разделов с этим фильтром</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function Overview({ onNavigate, dashState }: OverviewProps) {
   const { isCheckpointDone } = dashState;
 
@@ -101,18 +171,54 @@ export function Overview({ onNavigate, dashState }: OverviewProps) {
   // Recent changelog
   const recentChanges = (dashState.state?.changelog ?? []).slice(-3).reverse();
 
+  // Overall campaign progress
+  const totalCheckpoints = sections.reduce((sum, s) => sum + s.checkpoints.length, 0);
+  let totalDone = 0;
+  sections.forEach(s => s.checkpoints.forEach((cp, i) => {
+    if (isCheckpointDone(s.id, i, cp.done)) totalDone++;
+  }));
+  const campaignPct = totalCheckpoints > 0 ? Math.round((totalDone / totalCheckpoints) * 100) : 0;
+
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Header with campaign progress */}
       <div>
-        <h1 className="text-2xl font-bold text-text">Маркетинговая тактика</h1>
-        <p className="text-sm text-text-dim mt-1">
-          Эстрим Фест — 11 июля 2026, Москва. 12 групп + иностранный хедлайнер. Цель: 1000+ билетов.
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-text">Маркетинговая тактика</h1>
+            <div className="flex items-center gap-3 mt-1">
+              <p className="text-sm text-text-dim">Эстрим Фест — 11 июля 2026, Москва</p>
+              <button
+                onClick={() => {
+                  const days = Math.max(0, Math.ceil((new Date('2026-07-11').getTime() - Date.now()) / 86400000));
+                  const digest = [
+                    `Эстрим Фест — ${days} дней до феста`,
+                    `Кампания: ${campaignPct}%`,
+                    `Билеты: ${dashState.state?.kpis?.tickets ?? '?'} / 1000`,
+                    `Амбассадоры: ${dashState.state?.kpis?.ambassadors ?? 0} / 15`,
+                    `Партнёры: ${dashState.state?.kpis?.partners ?? 0} / 10`,
+                    `Готово: ${doneCount} из ${sections.length} разделов`,
+                  ].join('\n');
+                  navigator.clipboard.writeText(digest);
+                }}
+                className="text-xs px-2 py-1 rounded-lg bg-surface-3 text-text-dim hover:text-brand hover:bg-surface-2 transition-colors"
+              >
+                📋 Дайджест
+              </button>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-3xl font-bold text-brand">{campaignPct}%</div>
+            <div className="text-xs text-text-dim">кампания готова</div>
+          </div>
+        </div>
+        <div className="w-full h-2 rounded-full bg-surface-3 mt-3 overflow-hidden">
+          <div className="h-full rounded-full bg-brand transition-all duration-500" style={{ width: `${campaignPct}%` }} />
+        </div>
       </div>
 
-      {/* TODAY — dynamic actions from server */}
-      {(dashState.state?.todayActions?.length ?? 0) > 0 && (
+      {/* TODAY — dynamic actions from server, with fallback */}
+      {(dashState.state?.todayActions?.length ?? 0) > 0 ? (
         <div className="bg-surface-2 border-2 border-brand/40 rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <Zap size={18} className="text-brand" />
@@ -138,6 +244,14 @@ export function Overview({ onNavigate, dashState }: OverviewProps) {
               </div>
             ))}
           </div>
+        </div>
+      ) : (
+        <div className="bg-surface-2 border border-border rounded-2xl p-5">
+          <div className="flex items-center gap-2 mb-2">
+            <Zap size={18} className="text-text-dim" />
+            <h2 className="text-base font-semibold text-text">Сегодня</h2>
+          </div>
+          <p className="text-sm text-text-dim">Загрузка задач... Если пусто — проверь что dashboard-server запущен.</p>
         </div>
       )}
 
@@ -237,20 +351,8 @@ export function Overview({ onNavigate, dashState }: OverviewProps) {
         </div>
       </div>
 
-      {/* All sections grid */}
-      <div>
-        <h2 className="text-lg font-semibold text-text mb-3">Все разделы тактики</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {sections.map((section) => (
-            <SectionCard
-              key={section.id}
-              section={section}
-              onClick={() => onNavigate(section.id)}
-              dashState={dashState}
-            />
-          ))}
-        </div>
-      </div>
+      {/* All sections grid with filter */}
+      <SectionGrid sections={sections} onNavigate={onNavigate} dashState={dashState} />
     </div>
   );
 }
